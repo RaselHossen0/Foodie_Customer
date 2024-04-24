@@ -4,11 +4,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_localization/easy_localizationdart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as loc;
 import 'package:location/location.dart';
 import 'package:place_picker/place_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:story_view/story_view.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,7 +35,6 @@ import '../../ui/home/CurrentAddressChangeScreen.dart';
 import '../../ui/home/view_all_offer_screen.dart';
 import '../../ui/home/view_all_popular_food_near_by_screen.dart';
 import '../../ui/productDetailsScreen/ProductDetailsScreen.dart';
-import '../../ui/vendorProductsScreen/newVendorProductsScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   final User? user;
