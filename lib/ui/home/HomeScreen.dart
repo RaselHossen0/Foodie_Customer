@@ -35,6 +35,7 @@ import '../../ui/home/CurrentAddressChangeScreen.dart';
 import '../../ui/home/view_all_offer_screen.dart';
 import '../../ui/home/view_all_popular_food_near_by_screen.dart';
 import '../../ui/productDetailsScreen/ProductDetailsScreen.dart';
+import '../vendorProductsScreen/newVendorProductsScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   final User? user;
