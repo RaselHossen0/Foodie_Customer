@@ -1,44 +1,37 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:foodie_customer/AppGlobal.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/main.dart';
-import 'package:foodie_customer/model/BannerModel.dart';
-import 'package:foodie_customer/model/FavouriteModel.dart';
-import 'package:foodie_customer/model/ProductModel.dart';
-import 'package:foodie_customer/model/User.dart';
-import 'package:foodie_customer/model/VendorCategoryModel.dart';
-import 'package:foodie_customer/model/VendorModel.dart';
-import 'package:foodie_customer/model/offer_model.dart';
-import 'package:foodie_customer/model/story_model.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/services/localDatabase.dart';
-import 'package:foodie_customer/ui/categoryDetailsScreen/CategoryDetailsScreen.dart';
-import 'package:foodie_customer/ui/cuisinesScreen/CuisinesScreen.dart';
-import 'package:foodie_customer/ui/home/CurrentAddressChangeScreen.dart';
-import 'package:foodie_customer/ui/home/view_all_category_product_screen.dart';
-import 'package:foodie_customer/ui/home/view_all_new_arrival_restaurant_screen.dart';
-import 'package:foodie_customer/ui/home/view_all_offer_screen.dart';
-import 'package:foodie_customer/ui/home/view_all_popular_food_near_by_screen.dart';
-import 'package:foodie_customer/ui/home/view_all_popular_restaurant_screen.dart';
-import 'package:foodie_customer/ui/home/view_all_restaurant.dart';
-import 'package:foodie_customer/ui/productDetailsScreen/ProductDetailsScreen.dart';
-import 'package:foodie_customer/ui/vendorProductsScreen/newVendorProductsScreen.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:easy_localization/easy_localizationcator.dart';
 import 'package:location/location.dart' as loc;
 import 'package:location/location.dart';
 import 'package:place_picker/place_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:story_view/story_view.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../AppGlobal.dart';
+import '../../constants.dart';
+import '../../main.dart';
+import '../../model/BannerModel.dart';
+import '../../model/FavouriteModel.dart';
+import '../../model/ProductModel.dart';
+import '../../model/User.dart';
+import '../../model/VendorCategoryModel.dart';
+import '../../model/VendorModel.dart';
+import '../../model/offer_model.dart';
+import '../../model/story_model.dart';
+import '../../services/FirebaseHelper.dart';
+import '../../services/helper.dart';
+import '../../ui/categoryDetailsScreen/CategoryDetailsScreen.dart';
+import '../../ui/cuisinesScreen/CuisinesScreen.dart';
+import '../../ui/home/CurrentAddressChangeScreen.dart';
+import '../../ui/home/view_all_offer_screen.dart';
+import '../../ui/home/view_all_popular_food_near_by_screen.dart';
+import '../../ui/productDetailsScreen/ProductDetailsScreen.dart';
+import '../../ui/vendorProductsScreen/newVendorProductsScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   final User? user;
@@ -83,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     getLocationData();
     getBanner();
+    print('this is homescreen');
   }
 
   List<VendorCategoryModel> categoryWiseProductList = [];
@@ -115,11 +109,11 @@ class _HomeScreenState extends State<HomeScreen> {
         isHomeBannerMiddleLoading = false;
       });
     });
-    // await FireStoreUtils().getPublicCoupons().then((value) {
-    //   setState(() {
-    //     offerList = value;
-    //   });
-    // });
+    await FireStoreUtils().getPublicCoupons().then((value) {
+      setState(() {
+        offerList = value;
+      });
+    });
 
     await FirebaseFirestore.instance
         .collection(Setting)
@@ -376,34 +370,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }),
                             ),
                             Visibility(
-                              visible: bannerTopHome.isNotEmpty,
-                              child: Container(
-                                  color: isDarkMode(context)
-                                      ? const Color(DARK_COLOR)
-                                      : const Color(0xffFFFFFF),
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: isHomeBannerLoading
-                                      ? const Center(
-                                          child: CircularProgressIndicator())
-                                      : SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.23,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: PageView.builder(
-                                                padEnds: false,
-                                                itemCount: bannerTopHome.length,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                controller: _controller,
-                                                itemBuilder: (context, index) =>
-                                                    buildBestDealPage(
-                                                        bannerTopHome[index])),
+                                visible: bannerTopHome.isNotEmpty,
+                                child: Container(
+                                    color: isDarkMode(context)
+                                        ? const Color(DARK_COLOR)
+                                        : const Color(0xffFFFFFF),
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: isHomeBannerLoading
+                                        ? const Center(
+                                            child: CircularProgressIndicator())
+                                        : SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.23,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: buildBestDealPage(
+                                                    bannerTopHome)),
                                           ))),
-                            ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -549,55 +539,69 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: FutureBuilder(
                                       builder: (context, snapshot) {
                                         var offerLIST = snapshot.data;
-                                        return ListView.builder(
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            physics:
-                                                const BouncingScrollPhysics(),
-                                            itemCount: offerLIST!.length >= 15
-                                                ? 15
-                                                : offerLIST.length,
-                                            itemBuilder: (context, index) {
-                                              print("${offerLIST.length} + "
-                                                  " length"
-                                                  "");
-                                              return buildCouponsForYouItem(
-                                                  context, offerLIST[index]);
-                                            });
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting)
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        if (snapshot.hasError) {
+                                          print(snapshot.error);
+                                          return Center(
+                                            child: Text(
+                                                "Error: ${snapshot.error}"),
+                                          );
+                                        }
+                                        if (snapshot.hasData)
+                                          return ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              itemCount: offerLIST!.length >= 15
+                                                  ? 15
+                                                  : offerLIST.length,
+                                              itemBuilder: (context, index) {
+                                                print("${offerLIST.length} + "
+                                                    " length"
+                                                    "");
+                                                return buildCouponsForYouItem(
+                                                    context, offerLIST[index]);
+                                              });
+                                        return Container();
                                       },
                                       future: FireStoreUtils().getAllCoupons(),
                                     )),
-                            Visibility(
-                              visible: bannerMiddleHome.isNotEmpty,
-                              child: Container(
-                                  color: isDarkMode(context)
-                                      ? const Color(DARK_COLOR)
-                                      : const Color(0xffFFFFFF),
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: isHomeBannerMiddleLoading
-                                      ? const Center(
-                                          child: CircularProgressIndicator())
-                                      : SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.23,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: PageView.builder(
-                                                padEnds: false,
-                                                itemCount:
-                                                    bannerMiddleHome.length,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                controller: _controller,
-                                                itemBuilder: (context, index) =>
-                                                    buildBestDealPage(
-                                                        bannerMiddleHome[
-                                                            index])),
-                                          ))),
-                            ),
+                            // Visibility(
+                            //   visible: bannerMiddleHome.isNotEmpty,
+                            //   child: Container(
+                            //       color: isDarkMode(context)
+                            //           ? const Color(DARK_COLOR)
+                            //           : const Color(0xffFFFFFF),
+                            //       padding: const EdgeInsets.only(bottom: 10),
+                            //       child: isHomeBannerMiddleLoading
+                            //           ? const Center(
+                            //               child: CircularProgressIndicator())
+                            //           : SizedBox(
+                            //               height: MediaQuery.of(context)
+                            //                       .size
+                            //                       .height *
+                            //                   0.23,
+                            //               child: Padding(
+                            //                 padding: const EdgeInsets.symmetric(
+                            //                     horizontal: 10),
+                            //                 child: PageView.builder(
+                            //                     padEnds: false,
+                            //                     itemCount:
+                            //                         bannerMiddleHome.length,
+                            //                     scrollDirection:
+                            //                         Axis.horizontal,
+                            //                     controller: _controller,
+                            //                     itemBuilder: (context, index) =>
+                            //                         buildBestDealPage(
+                            //                             bannerMiddleHome[
+                            //                                 index])),
+                            //               ))),
+                            // ),
                             // Column(
                             //   children: [
                             //     buildTitleRow(
@@ -634,322 +638,127 @@ class _HomeScreenState extends State<HomeScreen> {
                             //                             index]))),
                             //   ],
                             // ),
-                            ListView.builder(
-                              itemCount: categoryWiseProductList.length,
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (context, index) {
-                                return StreamBuilder<List<VendorModel>>(
-                                  stream: FireStoreUtils()
-                                      .getCategoryRestaurants(
-                                          categoryWiseProductList[index]
-                                              .id
-                                              .toString()),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Center(
-                                        child:
-                                            CircularProgressIndicator.adaptive(
-                                          valueColor: AlwaysStoppedAnimation(
-                                              Color(COLOR_PRIMARY)),
-                                        ),
-                                      );
-                                    }
-                                    if ((snapshot.hasData ||
-                                            (snapshot.data?.isNotEmpty ??
-                                                false)) &&
-                                        mounted) {
-                                      return snapshot.data!.isEmpty
-                                          ? Container()
-                                          : Column(
-                                              children: [
-                                                buildTitleRow(
-                                                  titleValue:
-                                                      categoryWiseProductList[
-                                                              index]
-                                                          .title
-                                                          .toString(),
-                                                  onClick: () {
-                                                    push(
-                                                      context,
-                                                      ViewAllCategoryProductScreen(
-                                                        vendorCategoryModel:
-                                                            categoryWiseProductList[
-                                                                index],
-                                                      ),
-                                                    );
-                                                  },
-                                                  isViewAll: false,
+                            FutureBuilder<List<VendorCategoryModel>>(
+                              future: fireStoreUtils.getCuisines(),
+                              builder: (context, cuisineSnapshot) {
+                                List<VendorCategoryModel>? categories =
+                                    cuisineSnapshot.data;
+                                print(cuisineSnapshot.data);
+
+                                if (cuisineSnapshot.connectionState ==
+                                    ConnectionState.waiting)
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Color(COLOR_PRIMARY),
+                                    ),
+                                  );
+
+                                if (cuisineSnapshot.hasData)
+                                  return ListView.builder(
+                                    itemCount: categories?.length,
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    padding: EdgeInsets.zero,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          buildTitleRow(
+                                            titleValue:
+                                                categories?[index].title ?? '',
+                                            onClick: () {
+                                              push(
+                                                context,
+                                                CategoryDetailsScreen(
+                                                  category:
+                                                      categories?[index] ??
+                                                          VendorCategoryModel(),
+                                                  isDineIn: false,
                                                 ),
-                                                SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.28,
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: ListView.builder(
-                                                        shrinkWrap: true,
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        physics:
-                                                            const BouncingScrollPhysics(),
-                                                        padding:
-                                                            EdgeInsets.zero,
-                                                        itemCount: snapshot
-                                                            .data!.length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          VendorModel
-                                                              vendorModel =
-                                                              snapshot
-                                                                  .data![index];
-                                                          double
-                                                              distanceInMeters =
-                                                              Geolocator.distanceBetween(
-                                                                  vendorModel
-                                                                      .latitude,
-                                                                  vendorModel
-                                                                      .longitude,
-                                                                  MyAppState
-                                                                      .selectedPosotion
-                                                                      .latitude,
-                                                                  MyAppState
-                                                                      .selectedPosotion
-                                                                      .longitude);
-                                                          double kilometer =
-                                                              distanceInMeters /
-                                                                  1000;
-                                                          double minutes = 1.2;
-                                                          double value =
-                                                              minutes *
-                                                                  kilometer;
-                                                          final int hour =
-                                                              value ~/ 60;
-                                                          final double minute =
-                                                              value % 60;
-                                                          return Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        10,
-                                                                    vertical:
-                                                                        8),
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () async {
-                                                                push(
-                                                                  context,
-                                                                  NewVendorProductsScreen(
-                                                                      vendorModel:
-                                                                          vendorModel),
-                                                                );
-                                                              },
-                                                              child: SizedBox(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.65,
-                                                                child:
-                                                                    Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20),
-                                                                    border: Border.all(
-                                                                        color: isDarkMode(context)
-                                                                            ? const Color(
-                                                                                DarkContainerBorderColor)
-                                                                            : Colors
-                                                                                .grey.shade100,
-                                                                        width:
-                                                                            1),
-                                                                    color: isDarkMode(context)
-                                                                        ? const Color(
-                                                                            DarkContainerColor)
-                                                                        : Colors
-                                                                            .white,
-                                                                    boxShadow: [
-                                                                      isDarkMode(
-                                                                              context)
-                                                                          ? const BoxShadow()
-                                                                          : BoxShadow(
-                                                                              color: Colors.grey.withOpacity(0.5),
-                                                                              blurRadius: 5,
-                                                                            ),
-                                                                    ],
-                                                                  ),
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Expanded(
-                                                                          child:
-                                                                              Stack(
-                                                                        children: [
-                                                                          CachedNetworkImage(
-                                                                            imageUrl:
-                                                                                getImageVAlidUrl(vendorModel.photo),
-                                                                            imageBuilder: (context, imageProvider) =>
-                                                                                Container(
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                                                                                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-                                                                              ),
-                                                                            ),
-                                                                            placeholder: (context, url) => Center(
-                                                                                child: CircularProgressIndicator.adaptive(
-                                                                              valueColor: AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
-                                                                            )),
-                                                                            errorWidget: (context, url, error) =>
-                                                                                ClipRRect(
-                                                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                                                                              child: Image.network(
-                                                                                AppGlobal.placeHolderImage!,
-                                                                                width: MediaQuery.of(context).size.width * 0.75,
-                                                                                fit: BoxFit.contain,
-                                                                              ),
-                                                                            ),
-                                                                            fit:
-                                                                                BoxFit.cover,
-                                                                          ),
-                                                                          Positioned(
-                                                                            bottom:
-                                                                                10,
-                                                                            right:
-                                                                                10,
-                                                                            child:
-                                                                                Container(
-                                                                              decoration: BoxDecoration(
-                                                                                color: Colors.green,
-                                                                                borderRadius: BorderRadius.circular(5),
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                                                                                child: Row(
-                                                                                  mainAxisSize: MainAxisSize.min,
-                                                                                  children: [
-                                                                                    Text(vendorModel.reviewsCount != 0 ? (vendorModel.reviewsSum / vendorModel.reviewsCount).toStringAsFixed(1) : 0.toString(),
-                                                                                        style: const TextStyle(
-                                                                                          fontFamily: "Poppinsm",
-                                                                                          letterSpacing: 0.5,
-                                                                                          fontSize: 12,
-                                                                                          color: Colors.white,
-                                                                                        )),
-                                                                                    const SizedBox(width: 3),
-                                                                                    const Icon(
-                                                                                      Icons.star,
-                                                                                      size: 16,
-                                                                                      color: Colors.white,
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      )),
-                                                                      const SizedBox(
-                                                                          height:
-                                                                              5),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal:
-                                                                                5),
-                                                                        child:
-                                                                            Column(
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Text(vendorModel.title, maxLines: 1, style: TextStyle(fontFamily: "Poppinsm", fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: 0.2)).tr(),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Row(
-                                                                              children: [
-                                                                                Icon(
-                                                                                  Icons.location_pin,
-                                                                                  color: Color(COLOR_PRIMARY),
-                                                                                  size: 20,
-                                                                                ),
-                                                                                SizedBox(width: 5),
-                                                                                Expanded(
-                                                                                  child: Text(vendorModel.location, maxLines: 1, style: TextStyle(fontFamily: "Poppinsm", color: isDarkMode(context) ? Colors.white : Colors.black.withOpacity(0.60))).tr(),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Row(
-                                                                              children: [
-                                                                                Icon(
-                                                                                  Icons.timer_sharp,
-                                                                                  color: Color(COLOR_PRIMARY),
-                                                                                  size: 20,
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: 5,
-                                                                                ),
-                                                                                Text(
-                                                                                  '${hour.toString().padLeft(2, "0")}h ${minute.toStringAsFixed(0).padLeft(2, "0")}m',
-                                                                                  style: TextStyle(fontFamily: "Poppinsm", letterSpacing: 0.5, color: isDarkMode(context) ? Colors.white : Colors.black.withOpacity(0.60)),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: 10,
-                                                                                ),
-                                                                                Icon(
-                                                                                  Icons.my_location_sharp,
-                                                                                  color: Color(COLOR_PRIMARY),
-                                                                                  size: 20,
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: 10,
-                                                                                ),
-                                                                                Text(
-                                                                                  "${kilometer.toDouble().toStringAsFixed(currencyModel!.decimal)} km",
-                                                                                  style: TextStyle(fontFamily: "Poppinsm", letterSpacing: 0.5, color: isDarkMode(context) ? Colors.white : Colors.black.withOpacity(0.60)),
-                                                                                ).tr(),
-                                                                              ],
-                                                                            ),
-                                                                            SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                    )),
-                                              ],
-                                            );
-                                    } else {
-                                      return Container();
-                                    }
-                                  },
+                                              );
+                                            },
+                                          ),
+                                          // Display Cuisine/Category Name
+
+                                          // FutureBuilder for Products under the Cuisine/Category
+                                          FutureBuilder<List<ProductModel>>(
+                                            future: fireStoreUtils
+                                                .getProductListByCategId(
+                                              categories != null
+                                                  ? categories[index]
+                                                      .id
+                                                      .toString()
+                                                  : '',
+                                            ),
+                                            builder:
+                                                (context, productSnapshot) {
+                                              if (productSnapshot
+                                                      .connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator
+                                                          .adaptive(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation(
+                                                            Color(
+                                                                COLOR_PRIMARY)),
+                                                  ),
+                                                );
+                                              } else if (productSnapshot
+                                                  .hasData) {
+                                                // Display the list of products
+                                                return SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.24,
+                                                  child: ListView.builder(
+                                                    itemCount: productSnapshot
+                                                            .data?.length ??
+                                                        0,
+                                                    shrinkWrap: true,
+                                                    physics:
+                                                        const BouncingScrollPhysics(),
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemBuilder: (context,
+                                                        productIndex) {
+                                                      ProductModel product =
+                                                          productSnapshot.data![
+                                                              productIndex];
+                                                      // Display each product
+                                                      return popularFoodItem(
+                                                          context, product,
+                                                          byCategory: true);
+                                                    },
+                                                  ),
+                                                );
+                                              } else {
+                                                // Handle the case where there are no products
+                                                return Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Text(
+                                                      "No products available."),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                // Handle the case where there are no cuisines
+                                return Center(
+                                  child: Text("No cuisines available."),
                                 );
                               },
-                            ),
+                            )
+
                             // buildTitleRow(
                             //   titleValue: "All Restaurant".tr(),
                             //   onClick: () {},
@@ -1216,10 +1025,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget popularFoodItem(
-    BuildContext context,
-    ProductModel product,
-  ) {
+  Widget popularFoodItem(BuildContext context, ProductModel product,
+      {bool byCategory = false}) {
+    //print('byCategory $byCategory');
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () async {
@@ -1260,71 +1068,77 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
           ],
         ),
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: byCategory
+            ? MediaQuery.of(context).size.width * 0.35
+            : MediaQuery.of(context).size.width * 0.8,
         margin: const EdgeInsets.fromLTRB(10, 10, 10, 5),
         padding: const EdgeInsets.all(5),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: CachedNetworkImage(
-                imageUrl: getImageVAlidUrl(product.photo),
-                height: 100,
-                width: 100,
-                memCacheHeight: 100,
-                memCacheWidth: 100,
-                imageBuilder: (context, imageProvider) => Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                        image: imageProvider, fit: BoxFit.cover),
-                  ),
-                ),
-                placeholder: (context, url) => Center(
-                    child: CircularProgressIndicator.adaptive(
-                  valueColor: AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
-                )),
-                errorWidget: (context, url, error) => ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      AppGlobal.placeHolderImage!,
-                      fit: BoxFit.cover,
-                    )),
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: byCategory
+            ? Column(
                 children: [
-                  Text(
-                    product.name,
-                    style: TextStyle(
-                      fontFamily: "Poppinsm",
-                      fontSize: 18,
-                      color: isDarkMode(context) ? Colors.white : Colors.black,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CachedNetworkImage(
+                      imageUrl: getImageVAlidUrl(product.photo),
+                      height: 100,
+                      width: MediaQuery.of(context).size.width * 0.32,
+                      memCacheHeight: 100,
+                      memCacheWidth: 100,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
+                        ),
+                      ),
+                      placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator.adaptive(
+                        valueColor:
+                            AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
+                      )),
+                      errorWidget: (context, url, error) => ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            AppGlobal.placeHolderImage!,
+                            fit: BoxFit.cover,
+                          )),
+                      fit: BoxFit.cover,
                     ),
-                    maxLines: 1,
                   ),
                   const SizedBox(
-                    height: 5,
+                    width: 10,
                   ),
-                  Text(
-                    product.description,
-                    maxLines: 1,
-                    style: const TextStyle(
-                      fontFamily: "Poppinsm",
-                      fontSize: 16,
-                      color: Color(0xff9091A4),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  /*Text(
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.name,
+                          style: TextStyle(
+                            fontFamily: "Poppinsm",
+                            fontSize: 18,
+                            color: isDarkMode(context)
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          maxLines: 1,
+                        ),
+                        // const SizedBox(
+                        //   height: 5,
+                        // ),
+                        // Text(
+                        //   product.description,
+                        //   maxLines: 1,
+                        //   style: const TextStyle(
+                        //     fontFamily: "Poppinsm",
+                        //     fontSize: 16,
+                        //     color: Color(0xff9091A4),
+                        //   ),
+                        // ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        /*Text(
                     product.disPrice=="" || product.disPrice =="0"?"\$${product.price}":"\$${product.disPrice}",
                     style: TextStyle(
                       fontFamily: "Poppinsm",
@@ -1333,44 +1147,157 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Color(0xffE87034),
                     ),
                   ),*/
-                  product.disPrice == "" || product.disPrice == "0"
-                      ? Text(
-                          amountShow(amount: product.price),
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: "Poppinsm",
-                              letterSpacing: 0.5,
-                              color: Color(COLOR_PRIMARY)),
-                        )
-                      : Row(
-                          children: [
-                            Text(
-                              "${amountShow(amount: product.disPrice)}",
-                              style: TextStyle(
-                                fontFamily: "Poppinsm",
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Color(COLOR_PRIMARY),
+                        product.disPrice == "" || product.disPrice == "0"
+                            ? Text(
+                                amountShow(amount: product.price),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: "Poppinsm",
+                                    letterSpacing: 0.5,
+                                    color: Color(COLOR_PRIMARY)),
+                              )
+                            : Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      "${amountShow(amount: product.disPrice)}",
+                                      style: TextStyle(
+                                        fontFamily: "Poppinsm",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(COLOR_PRIMARY),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '${amountShow(amount: product.price)}',
+                                    style: const TextStyle(
+                                        fontFamily: "Poppinsm",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                        decoration: TextDecoration.lineThrough),
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${amountShow(amount: product.price)}',
-                              style: const TextStyle(
-                                  fontFamily: "Poppinsm",
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey,
-                                  decoration: TextDecoration.lineThrough),
-                            ),
-                          ],
+                      ],
+                    ),
+                  )
+                ],
+              )
+            : Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CachedNetworkImage(
+                      imageUrl: getImageVAlidUrl(product.photo),
+                      height: 100,
+                      width: 100,
+                      memCacheHeight: 100,
+                      memCacheWidth: 100,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
                         ),
+                      ),
+                      placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator.adaptive(
+                        valueColor:
+                            AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
+                      )),
+                      errorWidget: (context, url, error) => ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            AppGlobal.placeHolderImage!,
+                            fit: BoxFit.cover,
+                          )),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.name,
+                          style: TextStyle(
+                            fontFamily: "Poppinsm",
+                            fontSize: 18,
+                            color: isDarkMode(context)
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          maxLines: 1,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          product.description,
+                          maxLines: 1,
+                          style: const TextStyle(
+                            fontFamily: "Poppinsm",
+                            fontSize: 16,
+                            color: Color(0xff9091A4),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        /*Text(
+                    product.disPrice=="" || product.disPrice =="0"?"\$${product.price}":"\$${product.disPrice}",
+                    style: TextStyle(
+                      fontFamily: "Poppinsm",
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xffE87034),
+                    ),
+                  ),*/
+                        product.disPrice == "" || product.disPrice == "0"
+                            ? Text(
+                                amountShow(amount: product.price),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: "Poppinsm",
+                                    letterSpacing: 0.5,
+                                    color: Color(COLOR_PRIMARY)),
+                              )
+                            : Row(
+                                children: [
+                                  Text(
+                                    "${amountShow(amount: product.disPrice)}",
+                                    style: TextStyle(
+                                      fontFamily: "Poppinsm",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(COLOR_PRIMARY),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '${amountShow(amount: product.price)}',
+                                    style: const TextStyle(
+                                        fontFamily: "Poppinsm",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                        decoration: TextDecoration.lineThrough),
+                                  ),
+                                ],
+                              ),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
-        ),
       ),
     );
   }
@@ -1670,68 +1597,73 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  Widget buildBestDealPage(BannerModel categoriesModel) {
-    return InkWell(
-      onTap: () async {
-        if (categoriesModel.redirect_type == "store") {
-          VendorModel? vendorModel = await FireStoreUtils.getVendor(
-              categoriesModel.redirect_id.toString());
-          push(
-            context,
-            NewVendorProductsScreen(vendorModel: vendorModel!),
-          );
-        } else if (categoriesModel.redirect_type == "product") {
-          ProductModel? productModel = await fireStoreUtils
-              .getProductByProductID(categoriesModel.redirect_id.toString());
-          VendorModel? vendorModel =
-              await FireStoreUtils.getVendor(productModel.vendorID);
+  Widget buildBestDealPage(List<BannerModel> categoriesModels) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: MediaQuery.of(context).size.height * 0.23,
+        aspectRatio: 16 / 9,
+        viewportFraction: 0.99,
+        initialPage: 0,
+        enableInfiniteScroll: true,
+        reverse: false,
+        autoPlay: true,
+        autoPlayInterval: Duration(seconds: 3),
+        autoPlayAnimationDuration: Duration(milliseconds: 800),
+        autoPlayCurve: Curves.fastOutSlowIn,
+        enlargeCenterPage: true,
+        scrollDirection: Axis.horizontal,
+      ),
+      items: categoriesModels.map((categoriesModel) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: InkWell(
+                onTap: () async {
+                  if (categoriesModel.redirect_type == "store") {
+                    VendorModel? vendorModel = await FireStoreUtils.getVendor(
+                      categoriesModel.redirect_id.toString(),
+                    );
+                    // Navigate to NewVendorProductsScreen using vendorModel
+                  } else if (categoriesModel.redirect_type == "product") {
+                    ProductModel? productModel =
+                        await fireStoreUtils.getProductByProductID(
+                            categoriesModel.redirect_id.toString());
+                    VendorModel? vendorModel =
+                        await FireStoreUtils.getVendor(productModel.vendorID);
 
-          if (vendorModel != null) {
-            push(
-              context,
-              ProductDetailsScreen(
-                vendorModel: vendorModel,
-                productModel: productModel,
+                    if (vendorModel != null) {
+                      // Navigate to ProductDetailsScreen using vendorModel and productModel
+                    }
+                  } else if (categoriesModel.redirect_type == "external_link") {
+                    final uri =
+                        Uri.parse(categoriesModel.redirect_id.toString());
+                    if (await canLaunchUrl(uri)) {
+                      // await launchUrl(uri);
+                    } else {
+                      throw "Could not launch".tr() +
+                          " ${categoriesModel.redirect_id.toString()}";
+                    }
+                  }
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(
+                        getImageVAlidUrl(categoriesModel.photo.toString()),
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
               ),
             );
-          }
-        } else if (categoriesModel.redirect_type == "external_link") {
-          final uri = Uri.parse(categoriesModel.redirect_id.toString());
-          if (await canLaunchUrl(uri)) {
-            await launchUrl(uri);
-          } else {
-            throw "Could not launch".tr() +
-                " ${categoriesModel.redirect_id.toString()}";
-          }
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Container(
-          child: CachedNetworkImage(
-            imageUrl: getImageVAlidUrl(categoriesModel.photo.toString()),
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-              ),
-            ),
-            color: Colors.black.withOpacity(0.5),
-            placeholder: (context, url) => Center(
-                child: CircularProgressIndicator.adaptive(
-              valueColor: AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
-            )),
-            errorWidget: (context, url, error) => ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  AppGlobal.placeHolderImage!,
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  fit: BoxFit.fitWidth,
-                )),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
+          },
+        );
+      }).toList(),
     );
   }
 
@@ -2879,9 +2811,9 @@ class _MoreStoriesState extends State<MoreStories> {
                 );
               },
             ).toList(),
-            onStoryShow: (s) {
-              debugPrint("Showing a story");
-            },
+            // onStoryShow: (s) {
+            //   debugPrint("Showing a story");
+            // },
             onComplete: () {
               debugPrint("--------->");
               debugPrint(widget.storyList.length.toString());

@@ -15,49 +15,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:foodie_customer/main.dart';
-import 'package:foodie_customer/model/AddressModel.dart';
-import 'package:foodie_customer/model/AttributesModel.dart';
-import 'package:foodie_customer/model/BannerModel.dart';
-import 'package:foodie_customer/model/BlockUserModel.dart';
-import 'package:foodie_customer/model/BookTableModel.dart';
-import 'package:foodie_customer/model/ChatVideoContainer.dart';
-import 'package:foodie_customer/model/CodModel.dart';
-import 'package:foodie_customer/model/CurrencyModel.dart';
-import 'package:foodie_customer/model/DeliveryChargeModel.dart';
-import 'package:foodie_customer/model/FavouriteItemModel.dart';
-import 'package:foodie_customer/model/FavouriteModel.dart';
-import 'package:foodie_customer/model/FlutterWaveSettingDataModel.dart';
-import 'package:foodie_customer/model/MercadoPagoSettingsModel.dart';
-import 'package:foodie_customer/model/OrderModel.dart';
-import 'package:foodie_customer/model/PayFastSettingData.dart';
-import 'package:foodie_customer/model/PayStackSettingsModel.dart';
-import 'package:foodie_customer/model/ProductModel.dart';
-import 'package:foodie_customer/model/Ratingmodel.dart';
-import 'package:foodie_customer/model/ReviewAttributeModel.dart';
-import 'package:foodie_customer/model/User.dart';
-import 'package:foodie_customer/model/VendorCategoryModel.dart';
-import 'package:foodie_customer/model/VendorModel.dart';
-import 'package:foodie_customer/model/conversation_model.dart';
-import 'package:foodie_customer/model/email_template_model.dart';
-import 'package:foodie_customer/model/inbox_model.dart';
-import 'package:foodie_customer/model/notification_model.dart';
-import 'package:foodie_customer/model/offer_model.dart';
-import 'package:foodie_customer/model/paypalSettingData.dart';
-import 'package:foodie_customer/model/paytmSettingData.dart';
-import 'package:foodie_customer/model/razorpayKeyModel.dart';
-import 'package:foodie_customer/model/referral_model.dart';
-import 'package:foodie_customer/model/story_model.dart';
-import 'package:foodie_customer/model/stripeKey.dart';
-import 'package:foodie_customer/model/stripeSettingData.dart';
-import 'package:foodie_customer/model/topupTranHistory.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/ui/reauthScreen/reauth_user_screen.dart';
-import 'package:foodie_customer/userPrefrence.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:http/http.dart' as http;
-import 'package:map_launcher/map_launcher.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pizza/main.dart';
+import 'package:pizza/model/AddressModel.dart';
+import 'package:pizza/model/AttributesModel.dart';
+import 'package:pizza/model/BannerModel.dart';
+import 'package:pizza/model/BlockUserModel.dart';
+import 'package:pizza/model/BookTableModel.dart';
+import 'package:pizza/model/ChatVideoContainer.dart';
+import 'package:pizza/model/CodModel.dart';
+import 'package:pizza/model/CurrencyModel.dart';
+import 'package:pizza/model/DeliveryChargeModel.dart';
+import 'package:pizza/model/FavouriteItemModel.dart';
+import 'package:pizza/model/FavouriteModel.dart';
+import 'package:pizza/model/FlutterWaveSettingDataModel.dart';
+import 'package:pizza/model/MercadoPagoSettingsModel.dart';
+import 'package:pizza/model/OrderModel.dart';
+import 'package:pizza/model/PayFastSettingData.dart';
+import 'package:pizza/model/PayStackSettingsModel.dart';
+import 'package:pizza/model/ProductModel.dart';
+import 'package:pizza/model/Ratingmodel.dart';
+import 'package:pizza/model/ReviewAttributeModel.dart';
+import 'package:pizza/model/User.dart';
+import 'package:pizza/model/VendorCategoryModel.dart';
+import 'package:pizza/model/VendorModel.dart';
+import 'package:pizza/model/conversation_model.dart';
+import 'package:pizza/model/email_template_model.dart';
+import 'package:pizza/model/inbox_model.dart';
+import 'package:pizza/model/notification_model.dart';
+import 'package:pizza/model/offer_model.dart';
+import 'package:pizza/model/paypalSettingData.dart';
+import 'package:pizza/model/paytmSettingData.dart';
+import 'package:pizza/model/razorpayKeyModel.dart';
+import 'package:pizza/model/referral_model.dart';
+import 'package:pizza/model/story_model.dart';
+import 'package:pizza/model/stripeKey.dart';
+import 'package:pizza/model/stripeSettingData.dart';
+import 'package:pizza/model/topupTranHistory.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/ui/reauthScreen/reauth_user_screen.dart';
+import 'package:pizza/userPrefrence.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart' as apple;
 import 'package:uuid/uuid.dart';
 import 'package:video_compress/video_compress.dart';
@@ -331,6 +330,24 @@ class FireStoreUtils {
 
   static Future<List<ProductModel>> getProductListByCategoryId(
       String categoryId) async {
+    List<ProductModel> productList = [];
+    QuerySnapshot<Map<String, dynamic>> currencyQuery = await firestore
+        .collection(PRODUCTS)
+        .where('categoryID', isEqualTo: categoryId)
+        .where('publish', isEqualTo: true)
+        .get();
+    await Future.forEach(currencyQuery.docs,
+        (QueryDocumentSnapshot<Map<String, dynamic>> document) {
+      try {
+        productList.add(ProductModel.fromJson(document.data()));
+      } catch (e) {
+        debugPrint('FireStoreUtils.getCurrencys Parse error $e');
+      }
+    });
+    return productList;
+  }
+
+  Future<List<ProductModel>> getProductListByCategId(String categoryId) async {
     List<ProductModel> productList = [];
     QuerySnapshot<Map<String, dynamic>> currencyQuery = await firestore
         .collection(PRODUCTS)

@@ -1,13 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:foodie_customer/main.dart';
-import 'package:foodie_customer/model/PayFastSettingData.dart';
-import 'package:foodie_customer/model/payStackURLModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:pizza/main.dart';
+import 'package:pizza/model/PayFastSettingData.dart';
+import 'package:pizza/model/payStackURLModel.dart';
 
 class PayStackURLGen {
-  static Future payStackURLGen({required String amount, required String secretKey, required String currency}) async {
+  static Future payStackURLGen(
+      {required String amount,
+      required String secretKey,
+      required String currency}) async {
     final url = "https://api.paystack.co/transaction/initialize";
     final response = await http.post(Uri.parse(url), body: {
       "email": MyAppState.currentUser?.email,
@@ -50,8 +53,12 @@ class PayStackURLGen {
     //PayPalClientSettleModel.fromJson(data);
   }
 
-  static Future<String> getPayHTML({required String amount, required PayFastSettingData payFastSettingData, String itemName = "wallet Topup"}) async {
-    String newUrl = 'https://${!payFastSettingData.isSandbox ? "www" : "sandbox"}.payfast.co.za/eng/process';
+  static Future<String> getPayHTML(
+      {required String amount,
+      required PayFastSettingData payFastSettingData,
+      String itemName = "wallet Topup"}) async {
+    String newUrl =
+        'https://${!payFastSettingData.isSandbox ? "www" : "sandbox"}.payfast.co.za/eng/process';
     Map body = {
       'merchant_id': payFastSettingData.merchantId,
       'merchant_key': payFastSettingData.merchantKey,

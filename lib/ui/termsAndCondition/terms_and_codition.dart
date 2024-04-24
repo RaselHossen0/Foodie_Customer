@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:foodie_customer/constants.dart';
+import 'package:pizza/constants.dart';
 
 class TermsAndCondition extends StatefulWidget {
   const TermsAndCondition({Key? key}) : super(key: key);
@@ -15,7 +15,11 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
 
   @override
   void initState() {
-    FirebaseFirestore.instance.collection(Setting).doc("termsAndConditions").get().then((value) {
+    FirebaseFirestore.instance
+        .collection(Setting)
+        .doc("termsAndConditions")
+        .get()
+        .then((value) {
       print(value['termsAndConditions']);
       setState(() {
         termsAndCondition = value['termsAndConditions'];
@@ -46,8 +50,10 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
                   '''
                   $termsAndCondition
                    ''',
-                  onErrorBuilder: (context, element, error) => Text('$element error: $error'),
-                  onLoadingBuilder: (context, element, loadingProgress) => const CircularProgressIndicator(),
+                  onErrorBuilder: (context, element, error) =>
+                      Text('$element error: $error'),
+                  onLoadingBuilder: (context, element, loadingProgress) =>
+                      const CircularProgressIndicator(),
                 )
               : const Center(child: CircularProgressIndicator()),
         ),

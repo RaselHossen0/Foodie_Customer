@@ -2,8 +2,31 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Replace with your project details</key>
-	<string>Replace with your project details</string>
-
+	<key>API_KEY</key>
+	<string>AIzaSyDV87b8eSFs0KykmgS9a5aCEEZjYopTCvQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>198112282990</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.foodies.customer.foodieCustomer</string>
+	<key>PROJECT_ID</key>
+	<string>foddie-ddd88</string>
+	<key>STORAGE_BUCKET</key>
+	<string>foddie-ddd88.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:198112282990:ios:35b3e71c9ef55771f3997f</string>
+	<key>DATABASE_URL</key>
+	<string>https://foddie-ddd88-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

@@ -2,9 +2,10 @@ import 'package:easy_localization/easy_localization.dart' as easyLocal;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/ui/auth/AuthScreen.dart';
+
+import '../../constants.dart';
+import '../../services/helper.dart';
+import '../../ui/auth/AuthScreenn.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   @override
@@ -16,23 +17,27 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final List<String> _titlesList = [
     // easyLocal.tr('Welcome to FOODIES'),
     // 'Order Food'.tr(),
-    'Add Address'.tr(),
-    'Choose Your Favorite Food'.tr(),
-    'Fastest Delivery'.tr(),
+    ''.tr(),
+    ''.tr(),
+    ''.tr(),
   ];
 
   final List<String> _subtitlesList = [
     // 'Log in and order delicious food from restaurants around you.'.tr(),
     // 'Hungry? Order food in just a few clicks and we\'ll take care of you.'.tr(),
-    'Find perfect restaurant nearby or  place order at your favorite restaurant in few clicks.'.tr(),
-    'A diverse list of different dining restaurants throughout the territory and around your area carefully selected'.tr(),
-    'Get your favorite food fastest delivered at your doorstep'.tr(),
+    'Welcome to STG Pizza! Indulge in the Art of Crepes.'
+            'Start your culinary journey with us. Delicious moments await you!'
+        .tr(),
+    'Chill with Cello Care - Where Every Sip is a Cool Escape!:  Cool Vibes Only! Dive into a Symphony of Refreshment with Our Crave-worthy Smoothies and Cold Drinks.'
+        .tr(),
+    'Taste the Elegance at Cello Care - Where Every Bite is a Culinary Masterpiece!: Explore a Symphony of Flavors with Our Exquisite Menu, Crafted with Passion and Precision.'
+        .tr(),
   ];
 
   final List<dynamic> _imageList = [
-    'assets/images/intro_1.png',
-    'assets/images/intro_2.png',
-    'assets/images/intro_3.png',
+    'assets/images/intro1.jpeg',
+    'assets/images/intro2.jpeg',
+    'assets/images/intro3.jpeg',
   ];
   final List<dynamic> _darkimageList = [
     'assets/images/intro_1_dark.png',
@@ -54,10 +59,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       body: Stack(
         children: <Widget>[
           PageView.builder(
-            itemBuilder: (context, index) => getPage(isDarkMode(context) ? _darkimageList[index] : _imageList[index], _titlesList[index], _subtitlesList[index], context,
-                isDarkMode(context) ? (index + 1) == _darkimageList.length : (index + 1) == _imageList.length),
+            itemBuilder: (context, index) => getPage(
+                isDarkMode(context) ? _darkimageList[index] : _imageList[index],
+                _titlesList[index],
+                _subtitlesList[index],
+                context,
+                isDarkMode(context)
+                    ? (index + 1) == _darkimageList.length
+                    : (index + 1) == _imageList.length),
             controller: pageController,
-            itemCount: isDarkMode(context) ? _darkimageList.length : _imageList.length,
+            itemCount:
+                isDarkMode(context) ? _darkimageList.length : _imageList.length,
             onPageChanged: (int index) {
               setState(() {
                 _currentIndex = index;
@@ -74,7 +86,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       height: MediaQuery.of(context).size.height * 0.08,
                       padding: EdgeInsets.all(10),
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)), backgroundColor: Color(COLOR_PRIMARY)),
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6)),
+                            backgroundColor: Color(COLOR_PRIMARY)),
                         child: Text(
                           "GET STARTED".tr(),
                           style: TextStyle(fontSize: 16),
@@ -106,7 +121,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               child: SmoothPageIndicator(
                 controller: pageController,
                 count: _imageList.length,
-                effect: ScrollingDotsEffect(spacing: 20, activeDotColor: Color(COLOR_PRIMARY), dotColor: Color(0XFFFBDBD1), dotWidth: 7, dotHeight: 7, fixedCenter: false),
+                effect: ScrollingDotsEffect(
+                    spacing: 20,
+                    activeDotColor: Color(COLOR_PRIMARY),
+                    dotColor: Color(0XFFFBDBD1),
+                    dotWidth: 7,
+                    dotHeight: 7,
+                    fixedCenter: false),
               ),
             ),
           )),
@@ -117,9 +138,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 top: 30,
                 child: GestureDetector(
                     onTap: () {
-                      pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.bounceIn);
+                      pageController.previousPage(
+                          duration: Duration(milliseconds: 100),
+                          curve: Curves.bounceIn);
                     },
-                    child: Icon(Icons.chevron_left, size: 40, color: isDarkMode(context) ? Color(0xffFFFFFF) : null))),
+                    child: Icon(Icons.chevron_left,
+                        size: 40,
+                        color:
+                            isDarkMode(context) ? Color(0xffFFFFFF) : null))),
           ),
           Visibility(
             visible: _currentIndex + 2 == _imageList.length,
@@ -128,7 +154,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 top: 30,
                 child: GestureDetector(
                     onTap: () {
-                      pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.bounceIn);
+                      pageController.previousPage(
+                          duration: Duration(milliseconds: 100),
+                          curve: Curves.bounceIn);
                     },
                     child: Icon(
                       Icons.chevron_left,
@@ -148,7 +176,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       },
                       child: Text(
                         "SKIP".tr(),
-                        style: TextStyle(fontSize: 18, color: Color(COLOR_PRIMARY), fontFamily: 'Poppinsm'),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontFamily: 'Poppinsm'),
                       )))),
           Visibility(
               visible: _currentIndex + 1 != _imageList.length,
@@ -162,13 +193,22 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           height: MediaQuery.of(context).size.height * 0.08,
                           padding: EdgeInsets.all(10),
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)), backgroundColor: Color(COLOR_PRIMARY)),
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6)),
+                                backgroundColor: Color(COLOR_PRIMARY)),
                             child: Text(
                               "NEXT".tr(),
-                              style: TextStyle(fontSize: 16, color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0XFF333333)),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: isDarkMode(context)
+                                      ? Color(0xffFFFFFF)
+                                      : Colors.white),
                             ),
                             onPressed: () {
-                              pageController.nextPage(duration: Duration(milliseconds: 100), curve: Curves.bounceIn);
+                              pageController.nextPage(
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.bounceIn);
                             },
                           )))))
         ],
@@ -176,7 +216,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-  Widget getPage(dynamic image, _titlesList, _subtitlesList, BuildContext context, bool isLastPage) {
+  Widget getPage(dynamic image, _titlesList, _subtitlesList,
+      BuildContext context, bool isLastPage) {
     return Container(
         child: Column(
       //  crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -186,28 +227,34 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         // image is String ?
         Expanded(
             child: Container(
-                //  height:  MediaQuery.of(context).size.height*0.55,
-                width: MediaQuery.of(context).size.width * 1,
-                decoration: BoxDecoration(
-                    color: isDarkMode(context) ? Color(0XFF242528) : Color(0XFFFCEEE9),
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.elliptical(400, 180), bottomRight: Radius.elliptical(400, 180))),
-                child: Container(
-                  margin: EdgeInsets.only(right: 40, left: 40, top: 30),
-
-                  decoration: BoxDecoration(image: DecorationImage(image: AssetImage(image), fit: BoxFit.contain)),
-
-                  //  child:
-                  //       Image.asset(
-                  //           image,
-                  //           width: 50.00,
-                  //           fit: BoxFit.contain,
-                  //         )
-                ))),
+          height: MediaQuery.of(context).size.height * 0.56,
+          width: MediaQuery.of(context).size.width * 1,
+          decoration: BoxDecoration(
+              color:
+                  isDarkMode(context) ? Color(0XFF242528) : Color(0XFFFCEEE9),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.elliptical(400, 180),
+                  bottomRight: Radius.elliptical(400, 180))),
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.elliptical(400, 180),
+              bottomRight: Radius.elliptical(400, 180),
+            ),
+            child: Image.asset(
+              image,
+              fit: BoxFit.cover,
+            ),
+          ),
+        )),
         SizedBox(height: MediaQuery.of(context).size.height * 0.08),
         Text(
           _titlesList,
           textAlign: TextAlign.center,
-          style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0XFF333333), fontFamily: 'Poppinsm', fontSize: 20),
+          style: TextStyle(
+              color:
+                  isDarkMode(context) ? Color(0xffFFFFFF) : Color(0XFF333333),
+              fontFamily: 'Poppinsm',
+              fontSize: 20),
         ),
 
         Padding(
@@ -216,11 +263,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               _subtitlesList,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0XFF333333),
-                fontFamily: 'Poppinsl',
-                height: 2,
-                letterSpacing: 1.2,
-              ),
+                  color: isDarkMode(context)
+                      ? Color(0xffFFFFFF)
+                      : Color(0XFF333333),
+                  fontFamily: 'Poppinsl',
+                  height: 2,
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 17),
             )),
         SizedBox(height: MediaQuery.of(context).size.height * 0.25),
         // : Icon(

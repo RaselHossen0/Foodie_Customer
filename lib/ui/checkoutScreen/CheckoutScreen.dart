@@ -3,15 +3,15 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/main.dart';
-import 'package:foodie_customer/model/OrderModel.dart';
-import 'package:foodie_customer/model/ProductModel.dart';
-import 'package:foodie_customer/model/VendorModel.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/services/localDatabase.dart';
-import 'package:foodie_customer/ui/placeOrderScreen/PlaceOrderScreen.dart';
+import 'package:pizza/constants.dart';
+import 'package:pizza/main.dart';
+import 'package:pizza/model/OrderModel.dart';
+import 'package:pizza/model/ProductModel.dart';
+import 'package:pizza/model/VendorModel.dart';
+import 'package:pizza/services/FirebaseHelper.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/services/localDatabase.dart';
+import 'package:pizza/ui/placeOrderScreen/PlaceOrderScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/TaxModel.dart';
@@ -73,7 +73,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         setState(() {
           adminCommission = value;
           adminCommissionValue = adminCommission!["adminCommission"].toString();
-          addminCommissionType = adminCommission!["adminCommissionType"].toString();
+          addminCommissionType =
+              adminCommission!["adminCommissionType"].toString();
           isEnableAdminCommission = adminCommission!["isAdminCommission"];
         });
       }
@@ -91,7 +92,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDarkMode(context) ? Colors.grey.shade900 : Colors.grey.shade50,
+      backgroundColor:
+          isDarkMode(context) ? Colors.grey.shade900 : Colors.grey.shade50,
       appBar: AppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,7 +102,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             padding: const EdgeInsets.all(24.0),
             child: Text(
               'Checkout'.tr(),
-              style: TextStyle(fontSize: 24, color: isDarkMode(context) ? Colors.grey.shade300 : Colors.grey.shade800, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 24,
+                  color: isDarkMode(context)
+                      ? Colors.grey.shade300
+                      : Colors.grey.shade800,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
@@ -111,11 +118,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   child: ListTile(
                     leading: Text(
                       'Payment'.tr(),
-                      style: TextStyle(color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                          color: Color(COLOR_PRIMARY),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
                     ),
                     trailing: Text(
                       widget.paymentOption,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
                 ),
@@ -131,14 +142,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       children: [
                         Text(
                           'Deliver to'.tr(),
-                          style: TextStyle(color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold, fontSize: 18),
+                          style: TextStyle(
+                              color: Color(COLOR_PRIMARY),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 2,
                           child: Text(
                             '${MyAppState.currentUser!.shippingAddress.line1} ${MyAppState.currentUser!.shippingAddress.line2}',
                             textAlign: TextAlign.end,
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
                           ),
                         ),
                       ],
@@ -153,11 +168,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   child: ListTile(
                     leading: Text(
                       'Total'.tr(),
-                      style: TextStyle(color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                          color: Color(COLOR_PRIMARY),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
                     ),
                     trailing: Text(
-                      amountShow(amount: widget.total.toString()) ,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      amountShow(amount: widget.total.toString()),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
                 ),
@@ -198,7 +217,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   Text(
                     'PLACE ORDER'.tr(),
-                    style: TextStyle(color: isDarkMode(context) ? Colors.black : Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(
+                        color:
+                            isDarkMode(context) ? Colors.black : Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
                   ),
                 ],
               ),
@@ -226,8 +249,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     FireStoreUtils fireStoreUtils = FireStoreUtils();
     //place order
     showProgress(context, 'Placing Order...'.tr(), false);
-    VendorModel vendorModel = await fireStoreUtils.getVendorByVendorID(widget.products.first.vendorID).whenComplete(() => setPrefData());
-    log(vendorModel.fcmToken.toString() + "{}{}{}{======TOKENADD" + vendorModel.toJson().toString());
+    VendorModel vendorModel = await fireStoreUtils
+        .getVendorByVendorID(widget.products.first.vendorID)
+        .whenComplete(() => setPrefData());
+    log(vendorModel.fcmToken.toString() +
+        "{}{}{}{======TOKENADD" +
+        vendorModel.toJson().toString());
     OrderModel orderModel = OrderModel(
         address: MyAppState.currentUser!.shippingAddress,
         author: MyAppState.currentUser,
@@ -246,27 +273,40 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         specialDiscount: widget.specialDiscountMap,
         tipValue: widget.tipValue,
         adminCommission: isEnableAdminCommission! ? adminCommissionValue : "0",
-        adminCommissionType: isEnableAdminCommission! ? addminCommissionType : "",
+        adminCommissionType:
+            isEnableAdminCommission! ? addminCommissionType : "",
         takeAway: widget.takeAway,
         deliveryCharge: widget.deliveryCharge,
         scheduleTime: widget.scheduleTime);
 
     OrderModel placedOrder = await fireStoreUtils.placeOrder(orderModel);
     for (int i = 0; i < tempProduc.length; i++) {
-      await FireStoreUtils().getProductByID(tempProduc[i].id.split('~').first).then((value) async {
+      await FireStoreUtils()
+          .getProductByID(tempProduc[i].id.split('~').first)
+          .then((value) async {
         ProductModel? productModel = value;
         log("-----------1>${value.toJson()}");
         if (tempProduc[i].variant_info != null) {
-          for (int j = 0; j < productModel.itemAttributes!.variants!.length; j++) {
-            if (productModel.itemAttributes!.variants![j].variantId == tempProduc[i].id.split('~').last) {
-              if (productModel.itemAttributes!.variants![j].variantQuantity != "-1") {
-                productModel.itemAttributes!.variants![j].variantQuantity = (int.parse(productModel.itemAttributes!.variants![j].variantQuantity.toString()) - tempProduc[i].quantity).toString();
+          for (int j = 0;
+              j < productModel.itemAttributes!.variants!.length;
+              j++) {
+            if (productModel.itemAttributes!.variants![j].variantId ==
+                tempProduc[i].id.split('~').last) {
+              if (productModel.itemAttributes!.variants![j].variantQuantity !=
+                  "-1") {
+                productModel.itemAttributes!.variants![j].variantQuantity =
+                    (int.parse(productModel
+                                .itemAttributes!.variants![j].variantQuantity
+                                .toString()) -
+                            tempProduc[i].quantity)
+                        .toString();
               }
             }
           }
         } else {
           if (productModel.quantity != -1) {
-            productModel.quantity = productModel.quantity - tempProduc[i].quantity;
+            productModel.quantity =
+                productModel.quantity - tempProduc[i].quantity;
           }
         }
 

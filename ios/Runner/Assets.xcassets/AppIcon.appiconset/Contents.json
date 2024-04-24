@@ -109,14 +109,14 @@
       "size": "83.5x83.5"
     },
     {
-      "filename": "app_icon (1).png",
+      "filename": "Icon-App-1024x1024@1x.png",
       "idiom": "ios-marketing",
       "scale": "1x",
       "size": "1024x1024"
     }
   ],
   "info": {
-    "author": "xcode",
+    "author": "icons_launcher",
     "version": 1
   }
 }

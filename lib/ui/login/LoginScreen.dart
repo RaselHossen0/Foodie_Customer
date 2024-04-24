@@ -1,14 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart' as apple;
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/main.dart';
-import 'package:foodie_customer/model/User.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/ui/container/ContainerScreen.dart';
-import 'package:foodie_customer/ui/phoneAuth/PhoneNumberInputScreen.dart';
-import 'package:foodie_customer/ui/resetPasswordScreen/ResetPasswordScreen.dart';
+
+import '../../constants.dart';
+import '../../main.dart';
+import '../../model/User.dart';
+import '../../services/FirebaseHelper.dart';
+import '../../services/helper.dart';
+import '../../ui/container/ContainerScreen.dart';
+import '../../ui/home/HomeScreen.dart';
+import '../../ui/phoneAuth/PhoneNumberInputScreen.dart';
+import '../../ui/resetPasswordScreen/ResetPasswordScreen.dart'';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -28,7 +30,8 @@ class _LoginScreen extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: isDarkMode(context) ? Colors.white : Colors.black),
+        iconTheme: IconThemeData(
+            color: isDarkMode(context) ? Colors.white : Colors.black),
         elevation: 0.0,
       ),
       body: Form(
@@ -37,10 +40,14 @@ class _LoginScreen extends State<LoginScreen> {
         child: ListView(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 32.0, right: 16.0, left: 16.0),
+              padding:
+                  const EdgeInsets.only(top: 32.0, right: 16.0, left: 16.0),
               child: Text(
                 'Sing In',
-                style: TextStyle(color: Color(COLOR_PRIMARY), fontSize: 25.0, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Color(COLOR_PRIMARY),
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold),
               ).tr(),
             ),
 
@@ -49,7 +56,8 @@ class _LoginScreen extends State<LoginScreen> {
             ConstrainedBox(
               constraints: BoxConstraints(minWidth: double.infinity),
               child: Padding(
-                padding: const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
+                padding:
+                    const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
                 child: TextFormField(
                     textAlignVertical: TextAlignVertical.center,
                     textInputAction: TextInputAction.next,
@@ -61,13 +69,18 @@ class _LoginScreen extends State<LoginScreen> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(left: 16, right: 16),
                       hintText: 'Email Address'.tr(),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                              color: Color(COLOR_PRIMARY), width: 2.0)),
                       errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).errorColor),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).errorColor),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).errorColor),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).errorColor),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       enabledBorder: OutlineInputBorder(
@@ -83,7 +96,8 @@ class _LoginScreen extends State<LoginScreen> {
             ConstrainedBox(
               constraints: BoxConstraints(minWidth: double.infinity),
               child: Padding(
-                padding: const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
+                padding:
+                    const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
                 child: TextFormField(
                     textAlignVertical: TextAlignVertical.center,
                     controller: _passwordController,
@@ -96,13 +110,18 @@ class _LoginScreen extends State<LoginScreen> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(left: 16, right: 16),
                       hintText: 'Password'.tr(),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                              color: Color(COLOR_PRIMARY), width: 2.0)),
                       errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).errorColor),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).errorColor),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).errorColor),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).errorColor),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       enabledBorder: OutlineInputBorder(
@@ -123,7 +142,10 @@ class _LoginScreen extends State<LoginScreen> {
                   onTap: () => push(context, ResetPasswordScreen()),
                   child: Text(
                     'Forgot password?'.tr(),
-                    style: TextStyle(color: Colors.lightBlue, fontWeight: FontWeight.bold, letterSpacing: 1),
+                    style: TextStyle(
+                        color: Colors.lightBlue,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1),
                   ),
                 ),
               ),
@@ -168,14 +190,16 @@ class _LoginScreen extends State<LoginScreen> {
               child: Center(
                 child: Text(
                   'or',
-                  style: TextStyle(color: isDarkMode(context) ? Colors.white : Colors.black),
+                  style: TextStyle(
+                      color: isDarkMode(context) ? Colors.white : Colors.black),
                 ).tr(),
               ),
             ),
 
             /// facebook login button
             Padding(
-              padding: const EdgeInsets.only(right: 40.0, left: 40.0, bottom: 20),
+              padding:
+                  const EdgeInsets.only(right: 40.0, left: 40.0, bottom: 20),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: ElevatedButton.icon(
@@ -184,10 +208,14 @@ class _LoginScreen extends State<LoginScreen> {
                         child: Text(
                           'Facebook Login',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.grey.shade200),
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade200),
                         ).tr()),
                     icon: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20),
                       child: Image.asset(
                         'assets/images/facebook_logo.png',
                         color: Colors.grey.shade200,
@@ -219,11 +247,14 @@ class _LoginScreen extends State<LoginScreen> {
                   return Container();
                 } else {
                   return Padding(
-                    padding: const EdgeInsets.only(right: 40.0, left: 40.0, bottom: 20),
+                    padding: const EdgeInsets.only(
+                        right: 40.0, left: 40.0, bottom: 20),
                     child: apple.AppleSignInButton(
                       cornerRadius: 25.0,
                       type: apple.ButtonType.signIn,
-                      style: isDarkMode(context) ? apple.ButtonStyle.white : apple.ButtonStyle.black,
+                      style: isDarkMode(context)
+                          ? apple.ButtonStyle.white
+                          : apple.ButtonStyle.black,
                       onPressed: () => loginWithApple(),
                     ),
                   );
@@ -241,17 +272,26 @@ class _LoginScreen extends State<LoginScreen> {
                 child: Container(
                     alignment: Alignment.bottomCenter,
                     padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), border: Border.all(color: Color(COLOR_PRIMARY), width: 1)),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                      Icon(
-                        Icons.phone,
-                        color: Color(COLOR_PRIMARY),
-                      ),
-                      Text(
-                        'Login with phone number'.tr(),
-                        style: TextStyle(color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold, fontSize: 16, letterSpacing: 1),
-                      ),
-                    ])),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        border:
+                            Border.all(color: Color(COLOR_PRIMARY), width: 1)),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            Icons.phone,
+                            color: Color(COLOR_PRIMARY),
+                          ),
+                          Text(
+                            'Login with phone number'.tr(),
+                            style: TextStyle(
+                                color: Color(COLOR_PRIMARY),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                letterSpacing: 1),
+                          ),
+                        ])),
               ),
             )
           ],
@@ -263,7 +303,8 @@ class _LoginScreen extends State<LoginScreen> {
   _login() async {
     if (_key.currentState?.validate() ?? false) {
       _key.currentState!.save();
-      await _loginWithEmailAndPassword(_emailController.text.trim(), _passwordController.text.trim());
+      await _loginWithEmailAndPassword(
+          _emailController.text.trim(), _passwordController.text.trim());
     } else {
       setState(() {
         _validate = AutovalidateMode.onUserInteraction;
@@ -276,7 +317,8 @@ class _LoginScreen extends State<LoginScreen> {
   /// @param password user password
   _loginWithEmailAndPassword(String email, String password) async {
     await showProgress(context, "Logging in, please wait...".tr(), false);
-    dynamic result = await FireStoreUtils.loginWithEmailAndPassword(email.trim(), password.trim());
+    dynamic result = await FireStoreUtils.loginWithEmailAndPassword(
+        email.trim(), password.trim());
     await hideProgress();
     if (result != null && result is User && result.role == USER_ROLE_CUSTOMER) {
       result.fcmToken = await FireStoreUtils.firebaseMessaging.getToken() ?? '';
@@ -284,15 +326,28 @@ class _LoginScreen extends State<LoginScreen> {
         MyAppState.currentUser = result;
         print(MyAppState.currentUser!.active.toString() + "===S");
         if (MyAppState.currentUser!.active == true) {
-          pushAndRemoveUntil(context, ContainerScreen(user: result), false);
+          pushAndRemoveUntil(
+              context,
+              ContainerScreen(
+                user: result,
+                currentWidget: HomeScreen(
+                  user: result,
+                ),
+              ),
+              false);
         } else {
-          showAlertDialog(context, "Your account has been disabled, Please contact to admin.".tr(), "", true);
+          showAlertDialog(
+              context,
+              "Your account has been disabled, Please contact to admin.".tr(),
+              "",
+              true);
         }
       });
     } else if (result != null && result is String) {
       showAlertDialog(context, "Couldn't Authenticate".tr(), result, true);
     } else {
-      showAlertDialog(context, "Couldn't Authenticate".tr(), 'Login failed, Please try again.'.tr(), true);
+      showAlertDialog(context, "Couldn't Authenticate".tr(),
+          'Login failed, Please try again.'.tr(), true);
     }
   }
 
@@ -315,7 +370,11 @@ class _LoginScreen extends State<LoginScreen> {
         if (MyAppState.currentUser!.active == true) {
           pushAndRemoveUntil(context, ContainerScreen(user: result), false);
         } else {
-          showAlertDialog(context, "Your account has been disabled, Please contact to admin.".tr(), "", true);
+          showAlertDialog(
+              context,
+              "Your account has been disabled, Please contact to admin.".tr(),
+              "",
+              true);
         }
       } /*else if (result != null && result is String) {
         showAlertDialog(context, 'Error'.tr(), result.tr(), true);
@@ -326,7 +385,8 @@ class _LoginScreen extends State<LoginScreen> {
     } catch (e, s) {
       await hideProgress();
       print('_LoginScreen.loginWithFacebook $e $s');
-      showAlertDialog(context, 'error'.tr(), "Couldn't login with facebook.".tr(), true);
+      showAlertDialog(
+          context, 'error'.tr(), "Couldn't login with facebook.".tr(), true);
     }
   }
 
@@ -341,17 +401,23 @@ class _LoginScreen extends State<LoginScreen> {
         if (MyAppState.currentUser!.active == true) {
           pushAndRemoveUntil(context, ContainerScreen(user: result), false);
         } else {
-          showAlertDialog(context, "Your account has been disabled, Please contact to admin.".tr(), "", true);
+          showAlertDialog(
+              context,
+              "Your account has been disabled, Please contact to admin.".tr(),
+              "",
+              true);
         }
       } else if (result != null && result is String) {
         showAlertDialog(context, 'error'.tr(), result.tr(), true);
       } else {
-        showAlertDialog(context, 'error', "Couldn't login with apple.".tr(), true);
+        showAlertDialog(
+            context, 'error', "Couldn't login with apple.".tr(), true);
       }
     } catch (e, s) {
       await hideProgress();
       print('_LoginScreen.loginWithApple $e $s');
-      showAlertDialog(context, 'error'.tr(), "Couldn't login with apple.".tr(), true);
+      showAlertDialog(
+          context, 'error'.tr(), "Couldn't login with apple.".tr(), true);
     }
   }
 }

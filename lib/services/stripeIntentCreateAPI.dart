@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/model/stripeIntentModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:pizza/constants.dart';
+import 'package:pizza/model/stripeIntentModel.dart';
 
 class StripeCreateIntent {
   static Future<StripeCreateIntentModel> stripeCreateIntent({
@@ -24,6 +24,7 @@ class StripeCreateIntent {
     debugPrint(response.body);
 
     final data = jsonDecode(response.body);
-    return StripeCreateIntentModel.fromJson(data); //PayPalClientSettleModel.fromJson(data);
+    return StripeCreateIntentModel.fromJson(
+        data); //PayPalClientSettleModel.fromJson(data);
   }
 }

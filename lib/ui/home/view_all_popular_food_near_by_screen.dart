@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/model/ProductModel.dart';
-import 'package:foodie_customer/model/VendorModel.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../AppGlobal.dart';
 import '../../constants.dart';
+import '../../model/ProductModel.dart';
+import '../../model/VendorModel.dart';
+import '../../services/FirebaseHelper.dart';
+import '../../services/helper.dart';
 import '../vendorProductsScreen/newVendorProductsScreen.dart';
 
 class ViewAllPopularFoodNearByScreen extends StatefulWidget {

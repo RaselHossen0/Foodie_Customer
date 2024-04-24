@@ -1,15 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/model/createRazorPayOrderModel.dart';
-import 'package:foodie_customer/model/razorpayKeyModel.dart';
-import 'package:foodie_customer/userPrefrence.dart';
 import 'package:http/http.dart' as http;
+import 'package:pizza/constants.dart';
+import 'package:pizza/model/createRazorPayOrderModel.dart';
+import 'package:pizza/model/razorpayKeyModel.dart';
+import 'package:pizza/userPrefrence.dart';
 
 class RazorPayController {
-  Future<CreateRazorPayOrderModel?> createOrderRazorPay({required int amount, bool isTopup = false}) async {
-    final String orderId = isTopup ? UserPreference.getPaymentId() : UserPreference.getOrderId();
+  Future<CreateRazorPayOrderModel?> createOrderRazorPay(
+      {required int amount, bool isTopup = false}) async {
+    final String orderId =
+        isTopup ? UserPreference.getPaymentId() : UserPreference.getOrderId();
     RazorPayModel razorPayData = UserPreference.getRazorPayData();
     debugPrint(razorPayData.razorpayKey);
     debugPrint("we Enter In");

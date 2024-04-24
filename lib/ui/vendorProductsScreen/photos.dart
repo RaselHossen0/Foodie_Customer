@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/model/VendorModel.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/ui/fullScreenImageViewer/FullScreenImageViewer.dart';
+import 'package:pizza/model/VendorModel.dart';
+import 'package:pizza/services/FirebaseHelper.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/ui/fullScreenImageViewer/FullScreenImageViewer.dart';
 
 import '../../AppGlobal.dart';
 import '../../constants.dart';
@@ -41,7 +41,8 @@ class _RestaurantPhotosState extends State<RestaurantPhotos> {
                   future: photofuture,
                   // initialData: [],
                   builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.waiting && snapshot.data!.photos.isEmpty) {
+                    if (snapshot.connectionState != ConnectionState.waiting &&
+                        snapshot.data!.photos.isEmpty) {
                       if (snapshot.data!.photo.isNotEmpty) {
                         snapshot.data!.photos.add(snapshot.data!.photo);
                       }
@@ -50,10 +51,14 @@ class _RestaurantPhotosState extends State<RestaurantPhotos> {
                     if (snapshot.connectionState == ConnectionState.waiting)
                       return Center(
                         child: CircularProgressIndicator.adaptive(
-                          valueColor: AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
+                          valueColor:
+                              AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
                         ),
                       );
-                    else if (snapshot.data!.photos.isEmpty) return Center(child: showEmptyState("No images are available.".tr(), context));
+                    else if (snapshot.data!.photos.isEmpty)
+                      return Center(
+                          child: showEmptyState(
+                              "No images are available.".tr(), context));
                     return GridView.count(
                         shrinkWrap: true,
                         crossAxisCount: 2,
@@ -61,34 +66,57 @@ class _RestaurantPhotosState extends State<RestaurantPhotos> {
                         mainAxisSpacing: 10.0,
                         childAspectRatio: 5 / 4,
                         padding: EdgeInsets.all(10.0),
-                        children: List.generate(snapshot.data!.photos.length, (index) {
+                        children: List.generate(snapshot.data!.photos.length,
+                            (index) {
                           if (snapshot.data!.hidephotos == false) {
                             return Container(
                               child: InkWell(
                                 onTap: () {
-                                  push(context, FullScreenImageViewer(imageUrl: snapshot.data!.photos[index]));
+                                  push(
+                                      context,
+                                      FullScreenImageViewer(
+                                          imageUrl:
+                                              snapshot.data!.photos[index]));
                                 },
                                 child: Card(
                                     color: Color(0xffE7EAED),
                                     elevation: 0.5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0), side: BorderSide(color: Color(0xffDEE3ED))),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        side: BorderSide(
+                                            color: Color(0xffDEE3ED))),
                                     child: CachedNetworkImage(
                                         height: 70,
                                         width: 100,
-                                        imageUrl: getImageVAlidUrl(snapshot.data!.photos[index]),
-                                        imageBuilder: (context, imageProvider) => Container(
+                                        imageUrl: getImageVAlidUrl(
+                                            snapshot.data!.photos[index]),
+                                        imageBuilder: (context,
+                                                imageProvider) =>
+                                            Container(
                                               width: 70,
                                               height: 100,
-                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), image: DecorationImage(image: imageProvider, fit: BoxFit.cover)),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  image: DecorationImage(
+                                                      image: imageProvider,
+                                                      fit: BoxFit.cover)),
                                             ),
-                                        errorWidget: (context, url, error) => ClipRRect(
-                                            borderRadius: BorderRadius.circular(15),
-                                            child: Image.network(
-                                              AppGlobal.placeHolderImage!,
-                                              fit: BoxFit.cover,
-                                              width: MediaQuery.of(context).size.width,
-                                              height: MediaQuery.of(context).size.height,
-                                            )))),
+                                        errorWidget: (context, url, error) =>
+                                            ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                child: Image.network(
+                                                  AppGlobal.placeHolderImage!,
+                                                  fit: BoxFit.cover,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height,
+                                                )))),
                               ),
                             );
                           } else {
@@ -105,7 +133,8 @@ class _RestaurantPhotosState extends State<RestaurantPhotos> {
 class RestaurantMenuPhoto extends StatefulWidget {
   final List<dynamic> restaurantMenuPhotos;
 
-  const RestaurantMenuPhoto({Key? key, required this.restaurantMenuPhotos}) : super(key: key);
+  const RestaurantMenuPhoto({Key? key, required this.restaurantMenuPhotos})
+      : super(key: key);
 
   @override
   State<RestaurantMenuPhoto> createState() => _RestaurantMenuPhotoState();
@@ -128,33 +157,53 @@ class _RestaurantMenuPhotoState extends State<RestaurantMenuPhoto> {
                       mainAxisSpacing: 10.0,
                       childAspectRatio: 5 / 4,
                       padding: EdgeInsets.all(10.0),
-                      children: List.generate(widget.restaurantMenuPhotos.length, (index) {
+                      children: List.generate(
+                          widget.restaurantMenuPhotos.length, (index) {
                         return Container(
                           child: InkWell(
                             onTap: () {
-                              push(context, FullScreenImageViewer(imageUrl: widget.restaurantMenuPhotos[index]));
+                              push(
+                                  context,
+                                  FullScreenImageViewer(
+                                      imageUrl:
+                                          widget.restaurantMenuPhotos[index]));
                             },
                             child: Card(
                                 color: Color(0xffE7EAED),
                                 elevation: 0.5,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0), side: BorderSide(color: Color(0xffDEE3ED))),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    side: BorderSide(color: Color(0xffDEE3ED))),
                                 child: CachedNetworkImage(
                                     height: 70,
                                     width: 100,
-                                    imageUrl: getImageVAlidUrl(widget.restaurantMenuPhotos[index]),
-                                    imageBuilder: (context, imageProvider) => Container(
+                                    imageUrl: getImageVAlidUrl(
+                                        widget.restaurantMenuPhotos[index]),
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
                                           width: 70,
                                           height: 100,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), image: DecorationImage(image: imageProvider, fit: BoxFit.cover)),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover)),
                                         ),
-                                    errorWidget: (context, url, error) => ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Image.network(
-                                          AppGlobal.placeHolderImage!,
-                                          fit: BoxFit.cover,
-                                          width: MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context).size.height,
-                                        )))),
+                                    errorWidget: (context, url, error) =>
+                                        ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Image.network(
+                                              AppGlobal.placeHolderImage!,
+                                              fit: BoxFit.cover,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                            )))),
                           ),
                         );
                       }))))),

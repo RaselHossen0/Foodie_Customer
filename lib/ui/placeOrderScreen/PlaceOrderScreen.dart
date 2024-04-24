@@ -3,20 +3,21 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/main.dart';
-import 'package:foodie_customer/model/OrderModel.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/services/localDatabase.dart';
-import 'package:foodie_customer/ui/container/ContainerScreen.dart';
-import 'package:foodie_customer/ui/ordersScreen/OrdersScreen.dart';
+import 'package:pizza/constants.dart';
+import 'package:pizza/main.dart';
+import 'package:pizza/model/OrderModel.dart';
+import 'package:pizza/services/FirebaseHelper.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/services/localDatabase.dart';
+import 'package:pizza/ui/container/ContainerScreen.dart';
+import 'package:pizza/ui/ordersScreen/OrdersScreen.dart';
 import 'package:provider/provider.dart';
 
 class PlaceOrderScreen extends StatefulWidget {
   final OrderModel orderModel;
 
-  const PlaceOrderScreen({Key? key, required this.orderModel}) : super(key: key);
+  const PlaceOrderScreen({Key? key, required this.orderModel})
+      : super(key: key);
 
   @override
   _PlaceOrderScreenState createState() => _PlaceOrderScreenState();
@@ -55,7 +56,12 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
           ListTile(
             title: Text(
               'Placing Order...'.tr(),
-              style: TextStyle(color: isDarkMode(context) ? Colors.grey.shade300 : Colors.grey.shade800, fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: isDarkMode(context)
+                      ? Colors.grey.shade300
+                      : Colors.grey.shade800,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             trailing: Container(
               width: 24,
@@ -73,7 +79,12 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                   contentPadding: EdgeInsets.symmetric(horizontal: 40),
                   title: Text(
                     '${widget.orderModel.address.line1} ${widget.orderModel.address.line2} ${widget.orderModel.address.city}',
-                    style: TextStyle(color: isDarkMode(context) ? Colors.grey.shade300 : Colors.grey.shade800, fontWeight: FontWeight.w500, fontSize: 17),
+                    style: TextStyle(
+                        color: isDarkMode(context)
+                            ? Colors.grey.shade300
+                            : Colors.grey.shade800,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17),
                   ),
                   subtitle: Text('Deliver to door'.tr()),
                   leading: Icon(
@@ -91,7 +102,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
             title: Text(
               'Your order, {}'.tr(args: ['${widget.orderModel.address.name}']),
               style: TextStyle(
-                color: isDarkMode(context) ? Colors.grey.shade300 : Colors.grey.shade800,
+                color: isDarkMode(context)
+                    ? Colors.grey.shade300
+                    : Colors.grey.shade800,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
@@ -110,7 +123,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                 child: Row(
                   children: [
                     Container(
-                      color: isDarkMode(context) ? Colors.grey.shade700 : Colors.grey.shade200,
+                      color: isDarkMode(context)
+                          ? Colors.grey.shade700
+                          : Colors.grey.shade200,
                       padding: EdgeInsets.all(6),
                       child: Text('${index + 1}'),
                     ),
@@ -118,7 +133,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                     Text(
                       '${widget.orderModel.products[index].name}',
                       style: TextStyle(
-                        color: isDarkMode(context) ? Colors.grey.shade300 : Colors.grey.shade800,
+                        color: isDarkMode(context)
+                            ? Colors.grey.shade300
+                            : Colors.grey.shade800,
                         fontWeight: FontWeight.w500,
                       ),
                     )
@@ -136,13 +153,14 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
   animateOut() async {
     print(widget.orderModel.vendor.fcmToken.toString() + "{}{}{}{======TOKEN");
     if (widget.orderModel.scheduleTime != null) {
-      await FireStoreUtils.sendFcmMessage(scheduleOrder, widget.orderModel.vendor.fcmToken);
+      await FireStoreUtils.sendFcmMessage(
+          scheduleOrder, widget.orderModel.vendor.fcmToken);
     } else {
-      await FireStoreUtils.sendFcmMessage(orderPlaced, widget.orderModel.vendor.fcmToken);
+      await FireStoreUtils.sendFcmMessage(
+          orderPlaced, widget.orderModel.vendor.fcmToken);
     }
 
     await FireStoreUtils.sendOrderEmail(orderModel: widget.orderModel);
-
 
     Provider.of<CartDatabase>(context, listen: false).deleteAllProducts();
 

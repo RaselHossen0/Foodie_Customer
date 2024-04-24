@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/AppGlobal.dart';
 import 'package:foodie_customer/constants.dart';
 import 'package:foodie_customer/main.dart';
 import 'package:foodie_customer/model/CurrencyModel.dart';
@@ -17,12 +16,9 @@ import 'package:foodie_customer/ui/auth/AuthScreen.dart';
 import 'package:foodie_customer/ui/cartScreen/CartScreen.dart';
 import 'package:foodie_customer/ui/chat_screen/inbox_driver_screen.dart';
 import 'package:foodie_customer/ui/chat_screen/inbox_screen.dart';
-import 'package:foodie_customer/ui/cuisinesScreen/CuisinesScreen.dart';
-import 'package:foodie_customer/ui/dineInScreen/dine_in_screen.dart';
 import 'package:foodie_customer/ui/dineInScreen/my_booking_screen.dart';
 import 'package:foodie_customer/ui/home/HomeScreen.dart';
 import 'package:foodie_customer/ui/home/favourite_item.dart';
-import 'package:foodie_customer/ui/home/favourite_restaurant.dart';
 import 'package:foodie_customer/ui/home/home_screen_two.dart';
 import 'package:foodie_customer/ui/mapView/MapViewScreen.dart';
 import 'package:foodie_customer/ui/ordersScreen/OrdersScreen.dart';
@@ -36,46 +32,27 @@ import 'package:foodie_customer/userPrefrence.dart';
 import 'package:foodie_customer/utils/DarkThemeProvider.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:provider/provider.dart';
-
-enum DrawerSelection {
-  Home,
-  Wallet,
-  dineIn,
-  Search,
-  Cuisines,
-  Cart,
-  Profile,
-  Orders,
-  MyBooking,
-  termsCondition,
-  privacyPolicy,
-  chooseLanguage,
-  referral,
-  inbox,
-  driver,
-  Logout,
-  LikedRestaurant,
-  LikedProduct
+import '../../AppGlobalkedProduct
 }
 
 class ContainerScreen extends StatefulWidget {
   final User? user;
-  final Widget? currentWidget;
+  final Widget currentWidget;
   final String? appBarTitle;
   final DrawerSelection? drawerSelection;
 
-  const ContainerScreen(
-      {super.key,
-      this.user,
-      this.currentWidget,
-      this.appBarTitle,
-      this.drawerSelection});
-
-  // ContainerScreen({Key? key, required this.user, currentWidget, appBarTitle, this.drawerSelection = DrawerSelection.Home})
-  //     : this.appBarTitle = appBarTitle ?? 'Home'.tr(),
-  //       this.currentWidget = currentWidget ?? HomeScreen(),
-  //       super(key: key);
+  ContainerScreen(
+      {Key? key,
+      required this.user,
+      currentWidget,
+      appBarTitle,
+      this.drawerSelection = DrawerSelection.Home})
+      : this.appBarTitle = appBarTitle ?? 'Home'.tr(),
+        this.currentWidget = currentWidget ??
+            HomeScreen(
+              user: user,
+            ),
+        super(key: key);
 
   @override
   _ContainerScreen createState() {
@@ -101,6 +78,7 @@ class _ContainerScreen extends State<ContainerScreen> {
   void initState() {
     super.initState();
     setCurrency();
+    print('I came to container scrren');
     if (widget.user != null) {
       user = widget.user!;
     } else {
@@ -136,6 +114,16 @@ class _ContainerScreen extends State<ContainerScreen> {
   }
 
   setCurrency() async {
+    if (widget.currentWidget != null) {
+      print('checking current widget');
+      _currentWidget = widget.currentWidget;
+    } else {
+      if (homePageThem == "theme_2") {
+        _currentWidget = HomeScreenTwo(user: MyAppState.currentUser);
+      } else {
+        _currentWidget = HomeScreen(user: MyAppState.currentUser);
+      }
+    }
     await FirebaseFirestore.instance
         .collection(Setting)
         .doc("home_page_theme")
@@ -145,6 +133,7 @@ class _ContainerScreen extends State<ContainerScreen> {
         setState(() {
           homePageThem = value.data()!["theme"];
           if (widget.currentWidget != null) {
+            print('checking current widget');
             _currentWidget = widget.currentWidget;
           } else {
             if (homePageThem == "theme_2") {
@@ -310,10 +299,11 @@ class _ContainerScreen extends State<ContainerScreen> {
                                               Switch(
                                                 // thumb color (round icon)
                                                 splashRadius: 50.0,
-                                                activeThumbImage: const AssetImage(
-                                                    'https://lists.gnu.org/archive/html/emacs-devel/2015-10/pngR9b4lzUy39.png'),
+                                                activeThumbImage:
+                                                    const NetworkImage(
+                                                        'https://lists.gnu.org/archive/html/emacs-devel/2015-10/pngR9b4lzUy39.png'),
                                                 inactiveThumbImage:
-                                                    const AssetImage(
+                                                    const NetworkImage(
                                                         'http://wolfrosch.com/_img/works/goodies/icon/vim@2x'),
 
                                                 value: themeChange.darkTheme,

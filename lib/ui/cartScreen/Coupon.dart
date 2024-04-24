@@ -5,11 +5,11 @@
 // import 'package:dotted_border/dotted_border.dart';
 
 // import 'package:easy_localization/easy_localization.dart';
-// import 'package:foodie_customer/constants.dart';
-// import 'package:foodie_customer/model/CouponModel.dart';
-// import 'package:foodie_customer/services/FirebaseHelper.dart';
-// import 'package:foodie_customer/services/helper.dart';
-// import 'package:foodie_customer/ui/cartScreen/CartScreen.dart';
+// import 'package:pizza/constants.dart';
+// import 'package:pizza/model/CouponModel.dart';
+// import 'package:pizza/services/FirebaseHelper.dart';
+// import 'package:pizza/services/helper.dart';
+// import 'package:pizza/ui/cartScreen/CartScreen.dart';
 
 // class CouponCodeScreen extends StatefulWidget {
 //      final  per;

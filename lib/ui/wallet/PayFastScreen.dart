@@ -1,14 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/model/PayFastSettingData.dart';
+import 'package:pizza/model/PayFastSettingData.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PayFastScreen extends StatefulWidget {
   final String htmlData;
   final PayFastSettingData payFastSettingData;
 
-  const PayFastScreen({Key? key, required this.htmlData, required this.payFastSettingData}) : super(key: key);
+  const PayFastScreen(
+      {Key? key, required this.htmlData, required this.payFastSettingData})
+      : super(key: key);
 
   @override
   State<PayFastScreen> createState() => _PayFastScreenState();
@@ -19,8 +21,6 @@ class _PayFastScreenState extends State<PayFastScreen> {
 
   @override
   void initState() {
-
-
     initController();
     super.initState();
   }

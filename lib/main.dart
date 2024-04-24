@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,20 +9,21 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/model/CurrencyModel.dart';
-import 'package:foodie_customer/model/mail_setting.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/services/localDatabase.dart';
-import 'package:foodie_customer/ui/auth/AuthScreen.dart';
-import 'package:foodie_customer/ui/container/ContainerScreen.dart';
-import 'package:foodie_customer/ui/onBoarding/OnBoardingScreen.dart';
-import 'package:foodie_customer/userPrefrence.dart';
-import 'package:foodie_customer/utils/DarkThemeProvider.dart';
-import 'package:foodie_customer/utils/Styles.dart';
-import 'package:foodie_customer/utils/notification_service.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:pizza/constants.dart';
+import 'package:pizza/model/CurrencyModel.dart';
+import 'package:pizza/model/mail_setting.dart';
+import 'package:pizza/services/FirebaseHelper.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/services/localDatabase.dart';
+import 'package:pizza/ui/auth/AuthScreen.dart';
+import 'package:pizza/ui/container/ContainerScreen.dart';
+import 'package:pizza/ui/home/HomeScreen.dart';
+import 'package:pizza/ui/onBoarding/OnBoardingScreen.dart';
+import 'package:pizza/userPrefrence.dart';
+import 'package:pizza/utils/DarkThemeProvider.dart';
+import 'package:pizza/utils/Styles.dart';
+import 'package:pizza/utils/notification_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -83,7 +83,8 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   static User? currentUser;
-  static Position selectedPosotion = Position.fromMap({'latitude': 0.0, 'longitude': 0.0});
+  static Position selectedPosotion =
+      Position.fromMap({'latitude': 0.0, 'longitude': 0.0});
 
   // Define an async function to initialize FlutterFire
   NotificationService notificationService = NotificationService();
@@ -114,36 +115,63 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
         originalOnError!(errorDetails);
         // Forward to original handler.
       };
-      await FirebaseFirestore.instance.collection(Setting).doc("globalSettings").get().then((dineinresult) {
-        if (dineinresult.exists && dineinresult.data() != null && dineinresult.data()!.containsKey("website_color")) {
-          COLOR_PRIMARY = int.parse(dineinresult.data()!["website_color"].replaceFirst("#", "0xff"));
+      await FirebaseFirestore.instance
+          .collection(Setting)
+          .doc("globalSettings")
+          .get()
+          .then((dineinresult) {
+        if (dineinresult.exists &&
+            dineinresult.data() != null &&
+            dineinresult.data()!.containsKey("website_color")) {
+          COLOR_PRIMARY = int.parse(
+              dineinresult.data()!["website_color"].replaceFirst("#", "0xff"));
         }
       });
 
-      await FirebaseFirestore.instance.collection(Setting).doc("DineinForRestaurant").get().then((dineinresult) {
+      await FirebaseFirestore.instance
+          .collection(Setting)
+          .doc("DineinForRestaurant")
+          .get()
+          .then((dineinresult) {
         if (dineinresult.exists) {
           isDineInEnable = dineinresult.data()!["isEnabledForCustomer"];
         }
       });
 
-      await FirebaseFirestore.instance.collection(Setting).doc("emailSetting").get().then((value) {
+      await FirebaseFirestore.instance
+          .collection(Setting)
+          .doc("emailSetting")
+          .get()
+          .then((value) {
         if (value.exists) {
           mailSettings = MailSettings.fromJson(value.data()!);
         }
       });
 
-      await FirebaseFirestore.instance.collection(Setting).doc("home_page_theme").get().then((value) {
+      await FirebaseFirestore.instance
+          .collection(Setting)
+          .doc("home_page_theme")
+          .get()
+          .then((value) {
         if (value.exists) {
           homePageThem = value.data()!["theme"];
         }
       });
 
-      await FirebaseFirestore.instance.collection(Setting).doc("Version").get().then((value) {
+      await FirebaseFirestore.instance
+          .collection(Setting)
+          .doc("Version")
+          .get()
+          .then((value) {
         debugPrint(value.data().toString());
         appVersion = value.data()!['app_version'].toString();
       });
 
-      await FirebaseFirestore.instance.collection(Setting).doc("googleMapKey").get().then((value) {
+      await FirebaseFirestore.instance
+          .collection(Setting)
+          .doc("googleMapKey")
+          .get()
+          .then((value) {
         print(value.data());
         GOOGLE_API_KEY = value.data()!['key'].toString();
       });
@@ -168,7 +196,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
               supportedLocales: context.supportedLocales,
               debugShowCheckedModeBanner: false,
               theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-              home: OnBoarding());
+              home: OnBoardingScreen());
         },
       ),
     );
@@ -215,17 +243,26 @@ class OnBoardingState extends State<OnBoarding> {
             if (user.active) {
               user.active = true;
               user.role = USER_ROLE_CUSTOMER;
-              user.fcmToken = await FireStoreUtils.firebaseMessaging.getToken() ?? '';
+              user.fcmToken =
+                  await FireStoreUtils.firebaseMessaging.getToken() ?? '';
               await FireStoreUtils.updateCurrentUser(user);
               MyAppState.currentUser = user;
-              pushReplacement(context, ContainerScreen(user: user));
+              pushReplacement(
+                  context,
+                  ContainerScreen(
+                    user: user,
+                    currentWidget: HomeScreen(
+                      user: user,
+                    ),
+                  ));
             } else {
               user.lastOnlineTimestamp = Timestamp.now();
               user.fcmToken = "";
               await FireStoreUtils.updateCurrentUser(user);
               await auth.FirebaseAuth.instance.signOut();
               MyAppState.currentUser = null;
-              Provider.of<CartDatabase>(context, listen: false).deleteAllProducts();
+              Provider.of<CartDatabase>(context, listen: false)
+                  .deleteAllProducts();
               pushAndRemoveUntil(context, AuthScreen(), false);
             }
           } else {

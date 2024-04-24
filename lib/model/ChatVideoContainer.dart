@@ -1,5 +1,4 @@
-
-import 'package:foodie_customer/model/conversation_model.dart';
+import 'package:pizza/model/conversation_model.dart';
 
 class ChatVideoContainer {
   Url videoUrl;

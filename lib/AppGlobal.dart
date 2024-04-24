@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/ui/cartScreen/CartScreen.dart';
-import 'package:foodie_customer/ui/mapView/MapViewScreen.dart';
-import 'package:foodie_customer/ui/searchScreen/SearchScreen.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/ui/cartScreen/CartScreen.dart';
+import 'package:pizza/ui/mapView/MapViewScreen.dart';
+import 'package:pizza/ui/searchScreen/SearchScreen.dart';
 
 import 'constants.dart';
 
@@ -28,7 +28,10 @@ class AppGlobal {
       ),
       title: Text(
         title,
-        style: TextStyle(fontFamily: "Poppinsm", color: isDarkMode(context) ? Colors.white : Colors.black, fontWeight: FontWeight.normal),
+        style: TextStyle(
+            fontFamily: "Poppinsm",
+            color: isDarkMode(context) ? Colors.white : Colors.black,
+            fontWeight: FontWeight.normal),
       ),
       actions: [
         IconButton(
@@ -95,7 +98,11 @@ class AppGlobal {
           color: Color(COLOR_PRIMARY),
         ),
       ),
-      title: Text(title, style: TextStyle(fontFamily: 'Poppinssb', color: isDarkMode(context) ? Colors.white : Colors.black)).tr(),
+      title: Text(title,
+              style: TextStyle(
+                  fontFamily: 'Poppinssb',
+                  color: isDarkMode(context) ? Colors.white : Colors.black))
+          .tr(),
     );
   }
 }

@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/ui/container/ContainerScreen.dart';
-import 'package:foodie_customer/ui/login/LoginScreen.dart';
-import 'package:foodie_customer/ui/signUp/SignUpScreen.dart';
+import 'package:pizza/constants.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/ui/container/ContainerScreen.dart';
+import 'package:pizza/ui/login/LoginScreen.dart';
+import 'package:pizza/ui/signUp/SignUpScreen.dart';
 
 class AuthScreen extends StatelessWidget {
   @override
@@ -57,7 +57,7 @@ class AuthScreen extends StatelessWidget {
             Center(
               child: Image.asset(
                 'assets/images/app_logo.png',
-                color: Color(COLOR_PRIMARY),
+                // color: Color(COLOR_PRIMARY),
                 fit: BoxFit.cover,
                 width: 150,
                 height: 150,
@@ -67,7 +67,7 @@ class AuthScreen extends StatelessWidget {
               padding: const EdgeInsets.only(
                   left: 16, top: 32, right: 16, bottom: 8),
               child: Text(
-                "Welcome to Cello Cafe & Crepes",
+                "Welcome to STG Pizza",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Color(COLOR_PRIMARY),

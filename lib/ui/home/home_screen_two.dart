@@ -32,21 +32,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as loc;
 import 'package:location/location.dart';
 import 'package:place_picker/place_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:story_view/story_view.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:provider/provider.dart';
-
-class HomeScreenTwo extends StatefulWidget {
-  final User? user;
-
-  const HomeScreenTwo({super.key, this.user});
-
-  @override
-  State<HomeScreenTwo> createState() => _HomeScreenTwoState();
-}
-
-class _HomeScreenTwoState extends State<HomeScreenTwo> {
+import 'package:url_launcher/url_launchTwoState extends State<HomeScreenTwo> {
   final fireStoreUtils = FireStoreUtils();
 
   late Future<List<ProductModel>> productsFuture;

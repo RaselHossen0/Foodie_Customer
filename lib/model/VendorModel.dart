@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:foodie_customer/model/DeliveryChargeModel.dart';
-import 'package:foodie_customer/model/SpecialDiscountModel.dart';
 
+import '../../model/DeliveryChargeModel.dart';
+import '../../model/SpecialDiscountModel.dart';
 import '../constants.dart';
 import 'WorkingHoursModel.dart';
 
@@ -40,7 +40,6 @@ class VendorModel {
   List<dynamic> restaurantMenuPhotos;
 
   String location;
-
 
   num reviewsCount, restaurantCost;
 
@@ -107,7 +106,8 @@ class VendorModel {
   factory VendorModel.fromJson(Map<String, dynamic> parsedJson) {
     num restCost = 0;
     if (parsedJson.containsKey("restaurantCost")) {
-      if (parsedJson['restaurantCost'] == null || parsedJson['restaurantCost'].toString().isEmpty) {
+      if (parsedJson['restaurantCost'] == null ||
+          parsedJson['restaurantCost'].toString().isEmpty) {
         restCost = 0;
       } else if (parsedJson['restaurantCost'] is String) {
         restCost = num.parse(parsedJson['restaurantCost']);
@@ -115,13 +115,21 @@ class VendorModel {
         restCost = parsedJson['restaurantCost'];
       }
     }
-    List<SpecialDiscountModel> specialDiscount = parsedJson.containsKey('specialDiscount')
-        ? List<SpecialDiscountModel>.from((parsedJson['specialDiscount'] as List<dynamic>).map((e) => SpecialDiscountModel.fromJson(e))).toList()
-        : [].cast<SpecialDiscountModel>();
+    print(parsedJson['specialDiscount']);
+    List<SpecialDiscountModel> specialDiscount =
+        parsedJson.containsKey('specialDiscount')
+            ? List<SpecialDiscountModel>.from(
+                (parsedJson['specialDiscount'] as List<dynamic>)
+                    .map((e) => SpecialDiscountModel.fromJson(e))).toList()
+            : [].cast<SpecialDiscountModel>();
 
-    List<WorkingHoursModel> workingHours = parsedJson.containsKey('workingHours')
-        ? List<WorkingHoursModel>.from((parsedJson['workingHours'] as List<dynamic>).map((e) => WorkingHoursModel.fromJson(e))).toList()
-        : [].cast<WorkingHoursModel>();
+    List<WorkingHoursModel> workingHours =
+        parsedJson.containsKey('workingHours')
+            ? List<WorkingHoursModel>.from(
+                (parsedJson['workingHours'] as List<dynamic>)
+                    .map((e) => WorkingHoursModel.fromJson(e))).toList()
+            : [].cast<WorkingHoursModel>();
+    print(parsedJson);
     return new VendorModel(
         author: parsedJson['author'] ?? '',
         hidephotos: parsedJson['hidephotos'] ?? false,
@@ -130,8 +138,11 @@ class VendorModel {
         categoryID: parsedJson['categoryID'] ?? '',
         categoryPhoto: parsedJson['categoryPhoto'] ?? '',
         categoryTitle: parsedJson['categoryTitle'] ?? '',
-        createdAt: parsedJson['createdAt'],
-        deliveryCharge: (parsedJson.containsKey('DeliveryCharge') && parsedJson['DeliveryCharge'] != null) ? DeliveryChargeModel.fromJson(parsedJson['DeliveryCharge']) : null,
+        createdAt: Timestamp.now(),
+        deliveryCharge: (parsedJson.containsKey('DeliveryCharge') &&
+                parsedJson['DeliveryCharge'] != null)
+            ? DeliveryChargeModel.fromJson(parsedJson['DeliveryCharge'])
+            : null,
         description: parsedJson['description'] ?? '',
         phonenumber: parsedJson['phonenumber'] ?? '',
         filters: parsedJson['filters'] ?? {},
@@ -248,7 +259,17 @@ class Filters {
 
   String price;
 
-  Filters({required this.cuisine, this.seating = '', this.price = '', this.breakfast = '', this.dinner = '', this.lunch = '', this.music = '', this.reservation = '', this.vegan = '', this.wifi = ''});
+  Filters(
+      {required this.cuisine,
+      this.seating = '',
+      this.price = '',
+      this.breakfast = '',
+      this.dinner = '',
+      this.lunch = '',
+      this.music = '',
+      this.reservation = '',
+      this.vegan = '',
+      this.wifi = ''});
 
   factory Filters.fromJson(Map<dynamic, dynamic> parsedJson) {
     return new Filters(

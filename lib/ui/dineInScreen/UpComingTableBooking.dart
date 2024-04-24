@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/main.dart';
-import 'package:foodie_customer/model/BookTableModel.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/ui/dineInScreen/table_order_details_screen.dart';
+import 'package:pizza/constants.dart';
+import 'package:pizza/main.dart';
+import 'package:pizza/model/BookTableModel.dart';
+import 'package:pizza/services/FirebaseHelper.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/ui/dineInScreen/table_order_details_screen.dart';
 
 class UpComingTableBooking extends StatefulWidget {
   const UpComingTableBooking({Key? key}) : super(key: key);
@@ -24,7 +24,8 @@ class _UpComingTableBookingState extends State<UpComingTableBooking> {
   void initState() {
     super.initState();
     // _tabController = TabController(length:list.length, vsync: this);// initialise it
-    upcomingFuture = fireStoreUtils.getBookingOrders(MyAppState.currentUser!.userID, true);
+    upcomingFuture =
+        fireStoreUtils.getBookingOrders(MyAppState.currentUser!.userID, true);
   }
 
   @override
@@ -45,7 +46,8 @@ class _UpComingTableBookingState extends State<UpComingTableBooking> {
             }
             if (!snapshot.hasData || (snapshot.data?.isEmpty ?? true)) {
               return Center(
-                child: showEmptyState('No Upcoming Booking'.tr(), context, description: "Let's book table!".tr()),
+                child: showEmptyState('No Upcoming Booking'.tr(), context,
+                    description: "Let's book table!".tr()),
               );
             } else {
               return ListView.builder(
@@ -71,9 +73,12 @@ class _UpComingTableBookingState extends State<UpComingTableBooking> {
                           ));
                     },
                     child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 5),
+                      margin: EdgeInsets.only(
+                          left: 10, right: 10, bottom: 10, top: 5),
                       decoration: BoxDecoration(
-                        color: isDarkMode(context) ? Color(DARK_CARD_BG_COLOR) : Color(0xffFFFFFF),
+                        color: isDarkMode(context)
+                            ? Color(DARK_CARD_BG_COLOR)
+                            : Color(0xffFFFFFF),
                         borderRadius: BorderRadius.all(
                           Radius.circular(15.0),
                         ),
@@ -82,7 +87,9 @@ class _UpComingTableBookingState extends State<UpComingTableBooking> {
                             offset: Offset(0, 0),
                             blurRadius: 1,
                             spreadRadius: 2,
-                            color: isDarkMode(context) ? Colors.white12 : Colors.black12,
+                            color: isDarkMode(context)
+                                ? Colors.white12
+                                : Colors.black12,
                           ),
                         ],
                       ),
@@ -98,23 +105,31 @@ class _UpComingTableBookingState extends State<UpComingTableBooking> {
                                   child: CachedNetworkImage(
                                     height: 70,
                                     width: 70,
-                                    imageUrl: getImageVAlidUrl(bookTableModel.vendor.photo),
-                                    imageBuilder: (context, imageProvider) => Container(
+                                    imageUrl: getImageVAlidUrl(
+                                        bookTableModel.vendor.photo),
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
-                                        image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
                                       ),
                                     ),
                                     placeholder: (context, url) => Center(
-                                        child: CircularProgressIndicator.adaptive(
-                                      valueColor: AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
+                                        child:
+                                            CircularProgressIndicator.adaptive(
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Color(COLOR_PRIMARY)),
                                     )),
-                                    errorWidget: (context, url, error) => ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Image.network(
-                                          placeholderImage,
-                                          fit: BoxFit.cover,
-                                        )),
+                                    errorWidget: (context, url, error) =>
+                                        ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Image.network(
+                                              placeholderImage,
+                                              fit: BoxFit.cover,
+                                            )),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -123,14 +138,17 @@ class _UpComingTableBookingState extends State<UpComingTableBooking> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         bookTableModel.vendor.title,
                                         style: TextStyle(
                                           fontFamily: "Poppinssm",
                                           fontSize: 18,
-                                          color: isDarkMode(context) ? Colors.white : Color(0xff000000),
+                                          color: isDarkMode(context)
+                                              ? Colors.white
+                                              : Color(0xff000000),
                                         ),
                                       ),
                                       Padding(
@@ -139,7 +157,9 @@ class _UpComingTableBookingState extends State<UpComingTableBooking> {
                                           bookTableModel.vendor.location,
                                           style: TextStyle(
                                             fontFamily: "Poppinssm",
-                                            color: isDarkMode(context) ? Colors.white60 : Color(GREY_TEXT_COLOR),
+                                            color: isDarkMode(context)
+                                                ? Colors.white60
+                                                : Color(GREY_TEXT_COLOR),
                                           ),
                                         ),
                                       ),
@@ -152,42 +172,75 @@ class _UpComingTableBookingState extends State<UpComingTableBooking> {
                           ListTile(
                             title: Text(
                               'Name'.tr(),
-                              style: TextStyle(color: isDarkMode(context) ? Colors.white70 : Colors.black),
+                              style: TextStyle(
+                                  color: isDarkMode(context)
+                                      ? Colors.white70
+                                      : Colors.black),
                             ),
-                            leading: Icon(Icons.person_outline, color: isDarkMode(context) ? Colors.white70 : Colors.black),
+                            leading: Icon(Icons.person_outline,
+                                color: isDarkMode(context)
+                                    ? Colors.white70
+                                    : Colors.black),
                             minLeadingWidth: 10,
                             subtitle: Text(
                               '${bookTableModel.guestFirstName} ${bookTableModel.guestLastName}',
-                              style: TextStyle(color: isDarkMode(context) ? Colors.white60 : Colors.grey),
+                              style: TextStyle(
+                                  color: isDarkMode(context)
+                                      ? Colors.white60
+                                      : Colors.grey),
                             ),
                           ),
                           ListTile(
                             title: Text(
                               'Date'.tr(),
-                              style: TextStyle(color: isDarkMode(context) ? Colors.white70 : Colors.black),
+                              style: TextStyle(
+                                  color: isDarkMode(context)
+                                      ? Colors.white70
+                                      : Colors.black),
                             ),
-                            leading: Icon(Icons.date_range, color: isDarkMode(context) ? Colors.white70 : Colors.black),
+                            leading: Icon(Icons.date_range,
+                                color: isDarkMode(context)
+                                    ? Colors.white70
+                                    : Colors.black),
                             minLeadingWidth: 10,
                             subtitle: Text(
-                              DateFormat("MMM dd, yyyy 'at' hh:mm a").format(bookTableModel.date.toDate()),
-                              style: TextStyle(color: isDarkMode(context) ? Colors.white60 : Colors.grey),
+                              DateFormat("MMM dd, yyyy 'at' hh:mm a")
+                                  .format(bookTableModel.date.toDate()),
+                              style: TextStyle(
+                                  color: isDarkMode(context)
+                                      ? Colors.white60
+                                      : Colors.grey),
                             ),
                           ),
                           ListTile(
                             title: Text(
                               'Guest'.tr(),
-                              style: TextStyle(color: isDarkMode(context) ? Colors.white70 : Colors.black),
+                              style: TextStyle(
+                                  color: isDarkMode(context)
+                                      ? Colors.white70
+                                      : Colors.black),
                             ),
-                            leading: Icon(Icons.group, color: isDarkMode(context) ? Colors.white70 : Colors.black87),
+                            leading: Icon(Icons.group,
+                                color: isDarkMode(context)
+                                    ? Colors.white70
+                                    : Colors.black87),
                             minLeadingWidth: 10,
-                            subtitle: Text('${bookTableModel.totalGuest}', style: TextStyle(color: isDarkMode(context) ? Colors.white60 : Colors.grey)),
+                            subtitle: Text('${bookTableModel.totalGuest}',
+                                style: TextStyle(
+                                    color: isDarkMode(context)
+                                        ? Colors.white60
+                                        : Colors.grey)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20),
                             child: Center(
                                 child: Text(
                               "$bookStatus".tr(),
-                              style: TextStyle(letterSpacing: 0.5, color: Colors.green, fontSize: 16, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  letterSpacing: 0.5,
+                                  color: Colors.green,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
                             )),
                           )
                         ],

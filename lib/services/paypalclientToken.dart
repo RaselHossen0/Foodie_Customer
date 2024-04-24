@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/model/paypalClientToken.dart';
-import 'package:foodie_customer/model/paypalSettingData.dart';
 import 'package:http/http.dart' as http;
+import 'package:pizza/constants.dart';
+import 'package:pizza/model/paypalClientToken.dart';
+import 'package:pizza/model/paypalSettingData.dart';
 
 class PayPalClientTokenGen {
   static Future<PayPalClientTokenModel> paypalClientToken({

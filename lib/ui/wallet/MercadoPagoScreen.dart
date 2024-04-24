@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/constants.dart';
+import 'package:pizza/constants.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MercadoPagoScreen extends StatefulWidget {
@@ -21,8 +21,6 @@ class _MercadoPagoScreenState extends State<MercadoPagoScreen> {
 
   @override
   void initState() {
-
-
     initController();
     super.initState();
   }
@@ -41,7 +39,8 @@ class _MercadoPagoScreenState extends State<MercadoPagoScreen> {
             if (navigation.url.contains("${GlobalURL}payment/success")) {
               Navigator.pop(context, true);
             }
-            if (navigation.url.contains("${GlobalURL}payment/failure") || navigation.url.contains("${GlobalURL}payment/pending")) {
+            if (navigation.url.contains("${GlobalURL}payment/failure") ||
+                navigation.url.contains("${GlobalURL}payment/pending")) {
               Navigator.pop(context, false);
             }
             return NavigationDecision.navigate;

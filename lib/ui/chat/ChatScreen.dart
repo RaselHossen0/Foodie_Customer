@@ -10,19 +10,19 @@
 // import 'package:image_picker/image_picker.dart';
 // import 'package:path_provider/path_provider.dart';
 // import 'package:permission_handler/permission_handler.dart';
-// import 'package:foodie_customer/constants.dart';
-// import 'package:foodie_customer/main.dart';
-// import 'package:foodie_customer/model/ChatModel.dart';
-// import 'package:foodie_customer/model/ChatVideoContainer.dart';
-// import 'package:foodie_customer/model/ConversationModel.dart';
-// import 'package:foodie_customer/model/HomeConversationModel.dart';
-// import 'package:foodie_customer/model/MessageData.dart';
-// import 'package:foodie_customer/model/User.dart';
-// import 'package:foodie_customer/services/FirebaseHelper.dart';
-// import 'package:foodie_customer/services/helper.dart';
-// import 'package:foodie_customer/ui/chat/PlayerWidget.dart';
-// import 'package:foodie_customer/ui/fullScreenImageViewer/FullScreenImageViewer.dart';
-// import 'package:foodie_customer/ui/fullScreenVideoViewer/FullScreenVideoViewer.dart';
+// import 'package:pizza/constants.dart';
+// import 'package:pizza/main.dart';
+// import 'package:pizza/model/ChatModel.dart';
+// import 'package:pizza/model/ChatVideoContainer.dart';
+// import 'package:pizza/model/ConversationModel.dart';
+// import 'package:pizza/model/HomeConversationModel.dart';
+// import 'package:pizza/model/MessageData.dart';
+// import 'package:pizza/model/User.dart';
+// import 'package:pizza/services/FirebaseHelper.dart';
+// import 'package:pizza/services/helper.dart';
+// import 'package:pizza/ui/chat/PlayerWidget.dart';
+// import 'package:pizza/ui/fullScreenImageViewer/FullScreenImageViewer.dart';
+// import 'package:pizza/ui/fullScreenVideoViewer/FullScreenVideoViewer.dart';
 // import 'package:uuid/uuid.dart';
 //
 // enum RecordingState { HIDDEN, VISIBLE, Recording }

@@ -2,23 +2,24 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/AppGlobal.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/main.dart';
-import 'package:foodie_customer/model/FavouriteModel.dart';
-import 'package:foodie_customer/model/VendorModel.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/ui/auth/AuthScreen.dart';
-import 'package:foodie_customer/ui/dineInScreen/dine_in_restaurant_details_screen.dart';
-import 'package:foodie_customer/ui/vendorProductsScreen/newVendorProductsScreen.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
+import 'package:pizza/AppGlobal.dart';
+import 'package:pizza/constants.dart';
+import 'package:pizza/main.dart';
+import 'package:pizza/model/FavouriteModel.dart';
+import 'package:pizza/model/VendorModel.dart';
+import 'package:pizza/services/FirebaseHelper.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/ui/auth/AuthScreen.dart';
+import 'package:pizza/ui/dineInScreen/dine_in_restaurant_details_screen.dart';
+import 'package:pizza/ui/vendorProductsScreen/newVendorProductsScreen.dart';
 
 class ViewAllDineInRestaurant extends StatefulWidget {
   const ViewAllDineInRestaurant({Key? key}) : super(key: key);
 
   @override
-  State<ViewAllDineInRestaurant> createState() => _ViewAllDineInRestaurantState();
+  State<ViewAllDineInRestaurant> createState() =>
+      _ViewAllDineInRestaurantState();
 }
 
 class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
@@ -30,12 +31,22 @@ class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
     setState(() {
       isLoading = true;
     });
-    var collectionReference = FireStoreUtils.firestore.collection(VENDORS).where("enabledDiveInFuture", isEqualTo: true);
+    var collectionReference = FireStoreUtils.firestore
+        .collection(VENDORS)
+        .where("enabledDiveInFuture", isEqualTo: true);
 
-    GeoFirePoint center = GeoFlutterFire().point(latitude: MyAppState.selectedPosotion.latitude, longitude: MyAppState.selectedPosotion.longitude);
+    GeoFirePoint center = GeoFlutterFire().point(
+        latitude: MyAppState.selectedPosotion.latitude,
+        longitude: MyAppState.selectedPosotion.longitude);
     String field = 'g';
 
-    Stream<List<DocumentSnapshot>> stream = GeoFlutterFire().collection(collectionRef: collectionReference).within(center: center, radius: radiusValue, field: field, strictMode: true);
+    Stream<List<DocumentSnapshot>> stream = GeoFlutterFire()
+        .collection(collectionRef: collectionReference)
+        .within(
+            center: center,
+            radius: radiusValue,
+            field: field,
+            strictMode: true);
     stream.listen((documentList) {
       for (var document in documentList) {
         final data = document.data() as Map<String, dynamic>;
@@ -53,7 +64,8 @@ class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
 
   getData() {
     if (MyAppState.currentUser != null) {
-      lstFavourites = FireStoreUtils().getFavouriteRestaurant(MyAppState.currentUser!.userID);
+      lstFavourites = FireStoreUtils()
+          .getFavouriteRestaurant(MyAppState.currentUser!.userID);
       lstFavourites.then((event) {
         lstFav.clear();
         for (int a = 0; a < event.length; a++) {
@@ -104,8 +116,14 @@ class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: isDarkMode(context) ? const Color(DarkContainerBorderColor) : Colors.grey.shade100, width: 1),
-            color: isDarkMode(context) ? const Color(DarkContainerColor) : Colors.white,
+            border: Border.all(
+                color: isDarkMode(context)
+                    ? const Color(DarkContainerBorderColor)
+                    : Colors.grey.shade100,
+                width: 1),
+            color: isDarkMode(context)
+                ? const Color(DarkContainerColor)
+                : Colors.white,
             boxShadow: [
               isDarkMode(context)
                   ? const BoxShadow()
@@ -128,12 +146,14 @@ class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
                         ),
                       ),
                       placeholder: (context, url) => Center(
                           child: CircularProgressIndicator.adaptive(
-                        valueColor: AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
+                        valueColor:
+                            AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
                       )),
                       errorWidget: (context, url, error) => ClipRRect(
                           borderRadius: BorderRadius.circular(10),
@@ -163,7 +183,9 @@ class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
                                 fontFamily: "Poppinsm",
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
-                                color: isDarkMode(context) ? Colors.white : Colors.black,
+                                color: isDarkMode(context)
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               maxLines: 1,
                             ),
@@ -175,12 +197,23 @@ class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
                               } else {
                                 setState(() {
                                   if (lstFav.contains(vendorModel.id) == true) {
-                                    FavouriteModel favouriteModel = FavouriteModel(restaurantId: vendorModel.id, userId: MyAppState.currentUser!.userID);
-                                    lstFav.removeWhere((item) => item == vendorModel.id);
-                                    FireStoreUtils().removeFavouriteRestaurant(favouriteModel);
+                                    FavouriteModel favouriteModel =
+                                        FavouriteModel(
+                                            restaurantId: vendorModel.id,
+                                            userId:
+                                                MyAppState.currentUser!.userID);
+                                    lstFav.removeWhere(
+                                        (item) => item == vendorModel.id);
+                                    FireStoreUtils().removeFavouriteRestaurant(
+                                        favouriteModel);
                                   } else {
-                                    FavouriteModel favouriteModel = FavouriteModel(restaurantId: vendorModel.id, userId: MyAppState.currentUser!.userID);
-                                    FireStoreUtils().setFavouriteRestaurant(favouriteModel);
+                                    FavouriteModel favouriteModel =
+                                        FavouriteModel(
+                                            restaurantId: vendorModel.id,
+                                            userId:
+                                                MyAppState.currentUser!.userID);
+                                    FireStoreUtils()
+                                        .setFavouriteRestaurant(favouriteModel);
                                     lstFav.add(vendorModel.id);
                                   }
                                 });
@@ -193,7 +226,9 @@ class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
                                   )
                                 : Icon(
                                     Icons.favorite_border,
-                                    color: isDarkMode(context) ? Colors.white38 : Colors.black38,
+                                    color: isDarkMode(context)
+                                        ? Colors.white38
+                                        : Colors.black38,
                                   ),
                           )
                         ],
@@ -224,7 +259,9 @@ class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
                               maxLines: 1,
                               style: TextStyle(
                                 fontFamily: "Poppinsm",
-                                color: isDarkMode(context) ? Colors.white70 : const Color(0xff9091A4),
+                                color: isDarkMode(context)
+                                    ? Colors.white70
+                                    : const Color(0xff9091A4),
                               ),
                             ),
                           ),
@@ -241,18 +278,28 @@ class _ViewAllDineInRestaurantState extends State<ViewAllDineInRestaurant> {
                             color: Color(COLOR_PRIMARY),
                           ),
                           const SizedBox(width: 3),
-                          Text(vendorModel.reviewsCount != 0 ? (vendorModel.reviewsSum / vendorModel.reviewsCount).toStringAsFixed(1) : 0.toString(),
+                          Text(
+                              vendorModel.reviewsCount != 0
+                                  ? (vendorModel.reviewsSum /
+                                          vendorModel.reviewsCount)
+                                      .toStringAsFixed(1)
+                                  : 0.toString(),
                               style: TextStyle(
                                 fontFamily: "Poppinsm",
                                 letterSpacing: 0.5,
-                                color: isDarkMode(context) ? Colors.white : const Color(0xff000000),
+                                color: isDarkMode(context)
+                                    ? Colors.white
+                                    : const Color(0xff000000),
                               )),
                           const SizedBox(width: 3),
-                          Text('(${vendorModel.reviewsCount.toStringAsFixed(1)})',
+                          Text(
+                              '(${vendorModel.reviewsCount.toStringAsFixed(1)})',
                               style: TextStyle(
                                 fontFamily: "Poppinsm",
                                 letterSpacing: 0.5,
-                                color: isDarkMode(context) ? Colors.white60 : const Color(0xff666666),
+                                color: isDarkMode(context)
+                                    ? Colors.white60
+                                    : const Color(0xff666666),
                               )),
                           const SizedBox(width: 5),
                         ],

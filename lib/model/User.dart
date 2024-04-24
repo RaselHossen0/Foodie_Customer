@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/model/AddressModel.dart';
-import 'package:foodie_customer/model/OrderModel.dart';
+
+import '../../constants.dart';
+import '../../model/AddressModel.dart';
 
 class User with ChangeNotifier {
   String email;
@@ -30,7 +30,6 @@ class User with ChangeNotifier {
   num? rotation;
   dynamic walletAmount;
 
-
   User(
       {this.email = '',
       this.userID = '',
@@ -51,16 +50,19 @@ class User with ChangeNotifier {
       this.carName = '',
       this.carNumber = '',
       this.carPictureURL = '',
-        this.createdAt,
+      this.createdAt,
       this.inProgressOrderID})
       : this.lastOnlineTimestamp = lastOnlineTimestamp ?? Timestamp.now(),
         this.settings = settings ?? UserSettings(),
-        this.appIdentifier = 'Flutter Uber Eats Consumer ${Platform.operatingSystem}',
+        this.appIdentifier =
+            'Flutter Uber Eats Consumer ${Platform.operatingSystem}',
         this.shippingAddress = shippingAddress ?? AddressModel(),
         this.location = location ?? UserLocation();
 
   String fullName() {
-    return ((email.isEmpty) && (phoneNumber.isEmpty)) ? 'Login to Manage' : '$firstName $lastName';
+    return ((email.isEmpty) && (phoneNumber.isEmpty))
+        ? 'Login to Manage'
+        : '$firstName $lastName';
   }
 
   factory User.fromJson(Map<String, dynamic> parsedJson) {
@@ -71,20 +73,26 @@ class User with ChangeNotifier {
         lastName: parsedJson['lastName'] ?? '',
         active: parsedJson['active'] ?? true,
         lastOnlineTimestamp: parsedJson['lastOnlineTimestamp'],
-        settings: parsedJson.containsKey('settings') ? UserSettings.fromJson(parsedJson['settings']) : UserSettings(),
+        settings: parsedJson.containsKey('settings')
+            ? UserSettings.fromJson(parsedJson['settings'])
+            : UserSettings(),
         phoneNumber: parsedJson['phoneNumber'] ?? '',
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
         profilePictureURL: parsedJson['profilePictureURL'] ?? '',
         fcmToken: parsedJson['fcmToken'] ?? '',
-        location: parsedJson.containsKey('location') ? UserLocation.fromJson(parsedJson['location']) : UserLocation(),
-        shippingAddress: parsedJson.containsKey('shippingAddress') ? AddressModel.fromJson(parsedJson['shippingAddress']) : AddressModel(),
+        location: parsedJson.containsKey('location')
+            ? UserLocation.fromJson(parsedJson['location'])
+            : UserLocation(),
+        shippingAddress: parsedJson.containsKey('shippingAddress')
+            ? AddressModel.fromJson(parsedJson['shippingAddress'])
+            : AddressModel(),
         role: parsedJson['role'] ?? '',
         carName: parsedJson['carName'] ?? '',
         carNumber: parsedJson['carNumber'] ?? '',
         carPictureURL: parsedJson['carPictureURL'] ?? '',
-        inProgressOrderID: parsedJson['inProgressOrderID'] ??[],
+        inProgressOrderID: parsedJson['inProgressOrderID'] ?? [],
         rotation: parsedJson['rotation'] ?? 0.0,
-        createdAt: parsedJson['createdAt'],
+        createdAt: Timestamp.now(),
         vendorID: parsedJson['vendorID'] ?? '');
   }
 
@@ -135,7 +143,11 @@ class UserSettings {
 
   bool promotions;
 
-  UserSettings({this.pushNewMessages = true, this.orderUpdates = true, this.newArrivals = true, this.promotions = true});
+  UserSettings(
+      {this.pushNewMessages = true,
+      this.orderUpdates = true,
+      this.newArrivals = true,
+      this.promotions = true});
 
   factory UserSettings.fromJson(Map<dynamic, dynamic> parsedJson) {
     return UserSettings(

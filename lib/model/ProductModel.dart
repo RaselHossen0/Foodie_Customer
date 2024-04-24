@@ -1,5 +1,5 @@
-import 'package:foodie_customer/model/ItemAttributes.dart';
-import 'package:foodie_customer/model/variant_info.dart';
+import 'package:pizza/model/ItemAttributes.dart';
+import 'package:pizza/model/variant_info.dart';
 
 class ProductModel {
   String categoryID;
@@ -94,8 +94,10 @@ class ProductModel {
       addOnsTitle: parsedJson['addOnsTitle'] ?? [],
       reviewsCount: parsedJson['reviewsCount'] ?? 0,
       reviewsSum: parsedJson['reviewsSum'] ?? 0,
-      variantInfo: (parsedJson.containsKey('variant_info') && parsedJson['variant_info'] != null)
-          ? parsedJson['variant_info'].runtimeType.toString() == '_InternalLinkedHashMap<String, dynamic>'
+      variantInfo: (parsedJson.containsKey('variant_info') &&
+              parsedJson['variant_info'] != null)
+          ? parsedJson['variant_info'].runtimeType.toString() ==
+                  '_InternalLinkedHashMap<String, dynamic>'
               ? VariantInfo.fromJson(parsedJson['variant_info'])
               : null
           : null,
@@ -105,7 +107,10 @@ class ProductModel {
       //lstSizeCustom: lstSizeCustom,//parse dJson['lstSizeCustom'] != null?parsedJson['lstSizeCustom']:<AddSizeDemo>[] ,
       //lstAddOnsCustom: lstAddOnsCustom,//parsedJson['lstAddOnsCustom']!=null?parsedJson['lstAddOnsCustom']:<AddAddonsDemo>[],
       veg: parsedJson['veg'] ?? false,
-      itemAttributes: (parsedJson.containsKey('item_attribute') && parsedJson['item_attribute'] != null) ? ItemAttributes.fromJson(parsedJson['item_attribute']) : null,
+      itemAttributes: (parsedJson.containsKey('item_attribute') &&
+              parsedJson['item_attribute'] != null)
+          ? ItemAttributes.fromJson(parsedJson['item_attribute'])
+          : null,
     );
   }
 
@@ -136,7 +141,8 @@ class ProductModel {
       "addOnsPrice": addOnsPrice,
       "addon_name": addonName,
       "addon_price": addonPrice,
-      'item_attribute': itemAttributes == null ? null : itemAttributes!.toJson(),
+      'item_attribute':
+          itemAttributes == null ? null : itemAttributes!.toJson(),
       'product_specification': specification,
       'reviewAttributes': reviewAttributes,
       'reviewsCount': reviewsCount,

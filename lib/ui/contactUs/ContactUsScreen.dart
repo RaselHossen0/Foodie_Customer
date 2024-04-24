@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/AppGlobal.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
+import 'package:pizza/services/helper.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../AppGlobal.dart';
+import '../../constants.dart';
+import '../../services/FirebaseHelpper.dart';
 
 class ContactUsScreen extends StatefulWidget {
   @override
@@ -48,30 +49,47 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           Material(
               elevation: 2,
               color: isDarkMode(context) ? Colors.black12 : Colors.white,
-              child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0, left: 16, top: 16),
-                  child: Text(
-                    "Our Address",
-                    style: TextStyle(color: isDarkMode(context) ? Colors.white : Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
-                  ).tr(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0, left: 16, top: 16, bottom: 16),
-                  child: Text(address.replaceAll(r'\n', '\n')),
-                ),
-                ListTile(
-                  title: Text(
-                    'Email Us',
-                    style: TextStyle(color: isDarkMode(context) ? Colors.white : Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
-                  ).tr(),
-                  subtitle: Text('$email'),
-                  trailing: Icon(
-                    CupertinoIcons.chevron_forward,
-                    color: isDarkMode(context) ? Colors.white54 : Colors.black54,
-                  ),
-                )
-              ]))
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(right: 16.0, left: 16, top: 16),
+                      child: Text(
+                        "Our Address",
+                        style: TextStyle(
+                            color: isDarkMode(context)
+                                ? Colors.white
+                                : Colors.black,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                      ).tr(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          right: 16.0, left: 16, top: 16, bottom: 16),
+                      child: Text(address.replaceAll(r'\n', '\n')),
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Email Us',
+                        style: TextStyle(
+                            color: isDarkMode(context)
+                                ? Colors.white
+                                : Colors.black,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                      ).tr(),
+                      subtitle: Text('$email'),
+                      trailing: Icon(
+                        CupertinoIcons.chevron_forward,
+                        color: isDarkMode(context)
+                            ? Colors.white54
+                            : Colors.black54,
+                      ),
+                    )
+                  ]))
         ]),
       ),
     );

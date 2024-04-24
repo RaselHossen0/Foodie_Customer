@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:foodie_customer/model/FlutterWaveSettingDataModel.dart';
-import 'package:foodie_customer/model/PayFastSettingData.dart';
-import 'package:foodie_customer/model/PayStackSettingsModel.dart';
-import 'package:foodie_customer/model/paytmSettingData.dart';
+import 'package:pizza/model/FlutterWaveSettingDataModel.dart';
+import 'package:pizza/model/PayFastSettingData.dart';
+import 'package:pizza/model/PayStackSettingsModel.dart';
+import 'package:pizza/model/paytmSettingData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/MercadoPagoSettingsModel.dart';
@@ -57,7 +57,8 @@ class UserPreference {
 
   static getPayPalData() {
     final String? jsonData = _preferences.getString(paypalKey);
-    if (jsonData != null) return PaypalSettingData.fromJson((jsonDecode(jsonData)));
+    if (jsonData != null)
+      return PaypalSettingData.fromJson((jsonDecode(jsonData)));
   }
 
   static String payFast = "payFast";
@@ -69,7 +70,8 @@ class UserPreference {
 
   static getPayFastData() {
     final String? jsonData = _preferences.getString(payFast);
-    if (jsonData != null) return PayFastSettingData.fromJson((jsonDecode(jsonData)));
+    if (jsonData != null)
+      return PayFastSettingData.fromJson((jsonDecode(jsonData)));
   }
 
   static String mercadoPago = "mercadoPago";
@@ -81,7 +83,8 @@ class UserPreference {
 
   static getMercadoPago() {
     final String? jsonData = _preferences.getString(mercadoPago);
-    if (jsonData != null) return MercadoPagoSettingData.fromJson((jsonDecode(jsonData)));
+    if (jsonData != null)
+      return MercadoPagoSettingData.fromJson((jsonDecode(jsonData)));
   }
 
   static String stripeKey = "stripeKey";
@@ -100,7 +103,8 @@ class UserPreference {
 
   static String flutterWaveStack = "flutterWaveStack";
 
-  static setFlutterWaveData(FlutterWaveSettingData flutterWaveSettingData) async {
+  static setFlutterWaveData(
+      FlutterWaveSettingData flutterWaveSettingData) async {
     debugPrint(flutterWaveSettingData.toString());
     final jsonData = jsonEncode(flutterWaveSettingData);
     await _preferences.setString(flutterWaveStack, jsonData);

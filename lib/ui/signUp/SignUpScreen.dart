@@ -3,15 +3,15 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart' as easyLocal;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/main.dart';
-import 'package:foodie_customer/model/User.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/ui/container/ContainerScreen.dart';
-import 'package:foodie_customer/ui/phoneAuth/PhoneNumberInputScreen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:pizza/constants.dart';
+import 'package:pizza/main.dart';
+import 'package:pizza/model/User.dart';
+import 'package:pizza/services/FirebaseHelper.dart';
+import 'package:pizza/services/helper.dart';
+import 'package:pizza/ui/container/ContainerScreen.dart';
+import 'package:pizza/ui/phoneAuth/PhoneNumberInputScreen.dart';
 
 File? _image;
 
@@ -24,7 +24,13 @@ class _SignUpState extends State<SignUpScreen> {
   final ImagePicker _imagePicker = ImagePicker();
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
-  String? firstName, lastName, email, mobile, password, confirmPassword,referralCode;
+  String? firstName,
+      lastName,
+      email,
+      mobile,
+      password,
+      confirmPassword,
+      referralCode;
   AutovalidateMode _validate = AutovalidateMode.disabled;
 
   @override
@@ -37,7 +43,8 @@ class _SignUpState extends State<SignUpScreen> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: isDarkMode(context) ? Colors.white : Colors.black),
+        iconTheme: IconThemeData(
+            color: isDarkMode(context) ? Colors.white : Colors.black),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -76,7 +83,8 @@ class _SignUpState extends State<SignUpScreen> {
           isDefaultAction: false,
           onPressed: () async {
             Navigator.pop(context);
-            XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+            XFile? image =
+                await _imagePicker.pickImage(source: ImageSource.gallery);
             if (image != null)
               setState(() {
                 _image = File(image.path);
@@ -88,7 +96,8 @@ class _SignUpState extends State<SignUpScreen> {
           isDestructiveAction: false,
           onPressed: () async {
             Navigator.pop(context);
-            XFile? image = await _imagePicker.pickImage(source: ImageSource.camera);
+            XFile? image =
+                await _imagePicker.pickImage(source: ImageSource.camera);
             if (image != null)
               setState(() {
                 _image = File(image.path);
@@ -110,13 +119,19 @@ class _SignUpState extends State<SignUpScreen> {
     return Column(
       children: <Widget>[
         Align(
-            alignment: Directionality.of(context) == TextDirection.ltr ? Alignment.topLeft : Alignment.topRight,
+            alignment: Directionality.of(context) == TextDirection.ltr
+                ? Alignment.topLeft
+                : Alignment.topRight,
             child: Text(
               'Create new account',
-              style: TextStyle(color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold, fontSize: 25.0),
+              style: TextStyle(
+                  color: Color(COLOR_PRIMARY),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0),
             ).tr()),
         Padding(
-          padding: const EdgeInsets.only(left: 8.0, top: 32, right: 8, bottom: 8),
+          padding:
+              const EdgeInsets.only(left: 8.0, top: 32, right: 8, bottom: 8),
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
@@ -167,10 +182,14 @@ class _SignUpState extends State<SignUpScreen> {
               },
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 fillColor: Colors.white,
                 hintText: easyLocal.tr('First Name'),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide:
+                        BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Theme.of(context).errorColor),
                   borderRadius: BorderRadius.circular(25.0),
@@ -200,10 +219,14 @@ class _SignUpState extends State<SignUpScreen> {
               },
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 fillColor: Colors.white,
                 hintText: 'Last Name'.tr(),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide:
+                        BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Theme.of(context).errorColor),
                   borderRadius: BorderRadius.circular(25.0),
@@ -234,10 +257,14 @@ class _SignUpState extends State<SignUpScreen> {
                 email = val;
               },
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 fillColor: Colors.white,
                 hintText: 'Email Address'.tr(),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide:
+                        BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Theme.of(context).errorColor),
                   borderRadius: BorderRadius.circular(25.0),
@@ -261,9 +288,13 @@ class _SignUpState extends State<SignUpScreen> {
           padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), shape: BoxShape.rectangle, border: Border.all(color: Colors.grey.shade200)),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                shape: BoxShape.rectangle,
+                border: Border.all(color: Colors.grey.shade200)),
             child: InternationalPhoneNumberInput(
-              onInputChanged: (PhoneNumber number) => mobile = number.phoneNumber,
+              onInputChanged: (PhoneNumber number) =>
+                  mobile = number.phoneNumber,
               ignoreBlank: true,
               autoValidateMode: AutovalidateMode.onUserInteraction,
               inputDecoration: InputDecoration(
@@ -280,7 +311,8 @@ class _SignUpState extends State<SignUpScreen> {
                 borderSide: BorderSide.none,
               ),
               initialValue: PhoneNumber(isoCode: 'US'),
-              selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.DIALOG),
+              selectorConfig: const SelectorConfig(
+                  selectorType: PhoneInputSelectorType.DIALOG),
             ),
           ),
         ),
@@ -300,10 +332,14 @@ class _SignUpState extends State<SignUpScreen> {
               style: TextStyle(fontSize: 18.0),
               cursorColor: Color(COLOR_PRIMARY),
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 fillColor: Colors.white,
                 hintText: 'Password'.tr(),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide:
+                        BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Theme.of(context).errorColor),
                   borderRadius: BorderRadius.circular(25.0),
@@ -329,17 +365,22 @@ class _SignUpState extends State<SignUpScreen> {
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (_) => _signUp(),
               obscureText: true,
-              validator: (val) => validateConfirmPassword(_passwordController.text, val),
+              validator: (val) =>
+                  validateConfirmPassword(_passwordController.text, val),
               onSaved: (String? val) {
                 confirmPassword = val;
               },
               style: TextStyle(fontSize: 18.0),
               cursorColor: Color(COLOR_PRIMARY),
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 fillColor: Colors.white,
                 hintText: 'Confirm Password'.tr(),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide:
+                        BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Theme.of(context).errorColor),
                   borderRadius: BorderRadius.circular(25.0),
@@ -370,10 +411,14 @@ class _SignUpState extends State<SignUpScreen> {
               style: TextStyle(fontSize: 18.0),
               cursorColor: Color(COLOR_PRIMARY),
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 fillColor: Colors.white,
                 hintText: 'Referral Code (Optional)'.tr(),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide:
+                        BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Theme.of(context).errorColor),
                   borderRadius: BorderRadius.circular(25.0),
@@ -396,7 +441,8 @@ class _SignUpState extends State<SignUpScreen> {
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.only(top: 12, bottom: 12), backgroundColor: Color(COLOR_PRIMARY),
+                padding: EdgeInsets.only(top: 12, bottom: 12),
+                backgroundColor: Color(COLOR_PRIMARY),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
                   side: BorderSide(
@@ -421,7 +467,8 @@ class _SignUpState extends State<SignUpScreen> {
           child: Center(
             child: Text(
               'or',
-              style: TextStyle(color: isDarkMode(context) ? Colors.white : Colors.black),
+              style: TextStyle(
+                  color: isDarkMode(context) ? Colors.white : Colors.black),
             ).tr(),
           ),
         ),
@@ -434,16 +481,24 @@ class _SignUpState extends State<SignUpScreen> {
             child: Container(
                 alignment: Alignment.bottomCenter,
                 padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), border: Border.all(color: Color(COLOR_PRIMARY), width: 1)),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                  Icon(
-                    Icons.phone,
-                    color: Color(COLOR_PRIMARY),
-                  ),
-                  Text("Sign Up With Phone Number".tr(),
-                    style: TextStyle(color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold, letterSpacing: 1),
-                  ),
-                ])),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Color(COLOR_PRIMARY), width: 1)),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(
+                        Icons.phone,
+                        color: Color(COLOR_PRIMARY),
+                      ),
+                      Text(
+                        "Sign Up With Phone Number".tr(),
+                        style: TextStyle(
+                            color: Color(COLOR_PRIMARY),
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1),
+                      ),
+                    ])),
           ),
         )
       ],
@@ -463,11 +518,12 @@ class _SignUpState extends State<SignUpScreen> {
   _signUp() async {
     if (_key.currentState?.validate() ?? false) {
       _key.currentState!.save();
-      if(referralCode.toString().isNotEmpty){
-        FireStoreUtils.checkReferralCodeValidOrNot(referralCode.toString()).then((value) async {
-          if(value == true){
+      if (referralCode.toString().isNotEmpty) {
+        FireStoreUtils.checkReferralCodeValidOrNot(referralCode.toString())
+            .then((value) async {
+          if (value == true) {
             await _signUpWithEmailAndPassword();
-          }else{
+          } else {
             final snack = SnackBar(
               content: Text(
                 'Referral Code is Invalid'.tr(),
@@ -478,12 +534,10 @@ class _SignUpState extends State<SignUpScreen> {
             );
             ScaffoldMessenger.of(context).showSnackBar(snack);
           }
-
         });
-      }else{
+      } else {
         await _signUpWithEmailAndPassword();
       }
-
     } else {
       setState(() {
         _validate = AutovalidateMode.onUserInteraction;
@@ -492,8 +546,17 @@ class _SignUpState extends State<SignUpScreen> {
   }
 
   _signUpWithEmailAndPassword() async {
-    await showProgress(context, "Creating new account, Please wait...".tr(), false);
-    dynamic result = await FireStoreUtils.firebaseSignUpWithEmailAndPassword(email!.trim(), password!.trim(), _image, firstName!, lastName!, mobile!, context,referralCode.toString());
+    await showProgress(
+        context, "Creating new account, Please wait...".tr(), false);
+    dynamic result = await FireStoreUtils.firebaseSignUpWithEmailAndPassword(
+        email!.trim(),
+        password!.trim(),
+        _image,
+        firstName!,
+        lastName!,
+        mobile!,
+        context,
+        referralCode.toString());
     await hideProgress();
     if (result != null && result is User) {
       MyAppState.currentUser = result;

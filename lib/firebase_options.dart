@@ -49,32 +49,20 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'Place your key',
-    appId: 'Place your key',
-    messagingSenderId: 'Place your key',
-    projectId: 'Place your key',
-    authDomain: 'Place your key',
-    storageBucket: 'Place your key',
-    measurementId: 'Place your key',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'Place your key',
-    appId: 'Place your key',
-    messagingSenderId: 'Place your key',
-    projectId: 'Place your key',
-    storageBucket: 'Place your key',
+    apiKey: 'AIzaSyAAdxgWyakG62GK5K_TnvP0qFdsEd2ipfk',
+    appId: '1:901431133463:android:ce4d9448c725d5dcc06352',
+    messagingSenderId: '901431133463',
+    projectId: 'restaurent-c4f62',
+    storageBucket: 'restaurent-c4f62.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'Place your key',
-    appId: 'Place your key',
-    messagingSenderId: 'Place your key',
-    projectId: 'Place your key',
-    storageBucket: 'Place your key',
-    androidClientId: 'Place your key',
-    iosClientId: 'Place your key',
-    iosBundleId: 'Place your key',
+    apiKey: 'AIzaSyBAfjojmMxfU_fr7gu_f3s5f4UKUgYR1vE',
+    appId: '1:901431133463:ios:b3274978a199c07dc06352',
+    messagingSenderId: '901431133463',
+    projectId: 'restaurent-c4f62',
+    storageBucket: 'restaurent-c4f62.appspot.com',
+    iosBundleId: 'com.foodies.customer.foodieCustomer',
   );
 }

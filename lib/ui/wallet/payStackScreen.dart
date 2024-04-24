@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/services/paystack_url_genrater.dart';
+import 'package:pizza/constants.dart';
+import 'package:pizza/services/paystack_url_genrater.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PayStackScreen extends StatefulWidget {
@@ -13,7 +13,14 @@ class PayStackScreen extends StatefulWidget {
   final String secretKey;
   final String callBackUrl;
 
-  const PayStackScreen({Key? key, required this.initialURl, required this.reference, required this.amount, required this.secretKey, required this.callBackUrl}) : super(key: key);
+  const PayStackScreen(
+      {Key? key,
+      required this.initialURl,
+      required this.reference,
+      required this.amount,
+      required this.secretKey,
+      required this.callBackUrl})
+      : super(key: key);
 
   @override
   State<PayStackScreen> createState() => _PayStackScreenState();
@@ -24,8 +31,6 @@ class _PayStackScreenState extends State<PayStackScreen> {
 
   @override
   void initState() {
-
-
     initController();
     super.initState();
   }
@@ -44,17 +49,27 @@ class _PayStackScreenState extends State<PayStackScreen> {
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest navigation) async {
             debugPrint("--->2" + navigation.url);
-            debugPrint("--->2" + "${widget.callBackUrl}?trxref=${widget.reference}&reference=${widget.reference}");
-            if (navigation.url == 'https://foodieweb.siswebapp.com/success?trxref=${widget.reference}&reference=${widget.reference}' ||
-                navigation.url == '${widget.callBackUrl}?trxref=${widget.reference}&reference=${widget.reference}') {
-              final isDone = await PayStackURLGen.verifyTransaction(secretKey: widget.secretKey, reference: widget.reference, amount: widget.amount);
+            debugPrint("--->2" +
+                "${widget.callBackUrl}?trxref=${widget.reference}&reference=${widget.reference}");
+            if (navigation.url ==
+                    'https://foodieweb.siswebapp.com/success?trxref=${widget.reference}&reference=${widget.reference}' ||
+                navigation.url ==
+                    '${widget.callBackUrl}?trxref=${widget.reference}&reference=${widget.reference}') {
+              final isDone = await PayStackURLGen.verifyTransaction(
+                  secretKey: widget.secretKey,
+                  reference: widget.reference,
+                  amount: widget.amount);
               Navigator.pop(context, isDone); //close webview
             }
-            if ((navigation.url == '${widget.callBackUrl}?trxref=${widget.reference}&reference=${widget.reference}') ||
+            if ((navigation.url ==
+                    '${widget.callBackUrl}?trxref=${widget.reference}&reference=${widget.reference}') ||
                 (navigation.url == "https://hello.pstk.xyz/callback") ||
-                (navigation.url == 'https://standard.paystack.co/close')||
+                (navigation.url == 'https://standard.paystack.co/close') ||
                 (navigation.url == 'https://talazo.app/login')) {
-              final isDone = await PayStackURLGen.verifyTransaction(secretKey: widget.secretKey, reference: widget.reference, amount: widget.amount);
+              final isDone = await PayStackURLGen.verifyTransaction(
+                  secretKey: widget.secretKey,
+                  reference: widget.reference,
+                  amount: widget.amount);
               Navigator.pop(context, isDone);
               //close webview
             }

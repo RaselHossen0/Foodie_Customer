@@ -2,20 +2,22 @@
 
 import 'dart:io';
 import 'dart:math';
+
 import 'package:flutter/foundation.dart';
-import 'package:foodie_customer/model/CurrencyModel.dart';
-import 'package:foodie_customer/model/VendorModel.dart';
-import 'package:foodie_customer/model/mail_setting.dart';
-import 'package:foodie_customer/model/offer_model.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+
+import '../../model/CurrencyModel.dart';
+import '../../model/VendorModel.dart';
+import '../../model/mail_setting.dart';
+import '../../model/offer_model.dart';
 import 'model/TaxModel.dart';
 
 const FINISHED_ON_BOARDING = 'finishedOnBoarding';
 const COLOR_ACCENT = 0xFF8fd468;
 const COLOR_PRIMARY_DARK = 0xFF683A;
-var COLOR_PRIMARY = 0xFFFF683A;
+var COLOR_PRIMARY = 0xFF81480f;
 const FACEBOOK_BUTTON_COLOR = 0xFF415893;
 const DARK_COLOR = 0xff191A1C;
 const DARK_VIEWBG_COLOR = 0xff191A1C;
@@ -108,7 +110,8 @@ String? homePageThem = "them_1";
 
 String referralAmount = "0.0";
 
-String placeholderImage = 'https://firebasestorage.googleapis.com/v0/b/foodies-3c1d9.appspot.com/o/images%2Fplace_holder.png?alt=media&token=f391844e-0f04-44ed-bf37-e6a1c7d91020';
+String placeholderImage =
+    'https://firebasestorage.googleapis.com/v0/b/foodies-3c1d9.appspot.com/o/images%2Fplace_holder.png?alt=media&token=f391844e-0f04-44ed-bf37-e6a1c7d91020';
 
 String getReferralCode() {
   var rng = new Random();
@@ -136,7 +139,9 @@ double calculateTax({String? amount, TaxModel? taxModel}) {
     if (taxModel.type == "fix") {
       taxAmount = double.parse(taxModel.tax.toString());
     } else {
-      taxAmount = (double.parse(amount.toString()) * double.parse(taxModel.tax!.toString())) / 100;
+      taxAmount = (double.parse(amount.toString()) *
+              double.parse(taxModel.tax!.toString())) /
+          100;
     }
   }
   return taxAmount;
@@ -145,8 +150,11 @@ double calculateTax({String? amount, TaxModel? taxModel}) {
 double calculateDiscount({String? amount, OfferModel? offerModel}) {
   double taxAmount = 0.0;
   if (offerModel != null) {
-    if (offerModel.discountType == "Percentage" || offerModel.discountType == "percentage") {
-      taxAmount = (double.parse(amount.toString()) * double.parse(offerModel.discount.toString())) / 100;
+    if (offerModel.discountType == "Percentage" ||
+        offerModel.discountType == "percentage") {
+      taxAmount = (double.parse(amount.toString()) *
+              double.parse(offerModel.discount.toString())) /
+          100;
     } else {
       taxAmount = double.parse(offerModel.discount.toString());
     }
@@ -157,7 +165,8 @@ double calculateDiscount({String? amount, OfferModel? offerModel}) {
 Uri createCoordinatesUrl(double latitude, double longitude, [String? label]) {
   var uri;
   if (kIsWeb) {
-    uri = Uri.https('www.google.com', '/maps/search/', {'api': '1', 'query': '$latitude,$longitude'});
+    uri = Uri.https('www.google.com', '/maps/search/',
+        {'api': '1', 'query': '$latitude,$longitude'});
   } else if (Platform.isAndroid) {
     var query = '$latitude,$longitude';
     if (label != null) query += '($label)';
@@ -167,14 +176,16 @@ Uri createCoordinatesUrl(double latitude, double longitude, [String? label]) {
     if (label != null) params['q'] = label;
     uri = Uri.https('maps.apple.com', '/', params);
   } else {
-    uri = Uri.https('www.google.com', '/maps/search/', {'api': '1', 'query': '$latitude,$longitude'});
+    uri = Uri.https('www.google.com', '/maps/search/',
+        {'api': '1', 'query': '$latitude,$longitude'});
   }
 
   return uri;
 }
 
 String getKm(Position pos1, Position pos2) {
-  double distanceInMeters = Geolocator.distanceBetween(pos1.latitude, pos1.longitude, pos2.latitude, pos2.longitude);
+  double distanceInMeters = Geolocator.distanceBetween(
+      pos1.latitude, pos1.longitude, pos2.latitude, pos2.longitude);
   double kilometer = distanceInMeters / 1000;
   debugPrint("KiloMeter$kilometer");
   return kilometer.toStringAsFixed(2).toString();
@@ -201,15 +212,26 @@ MailSettings? mailSettings;
 // String username = 'foodie@siswebapp.com';
 // String password = "8#bb\$1)E@#f3";
 
-final smtpServer = SmtpServer(mailSettings!.host.toString(), username: mailSettings!.userName.toString(), password: mailSettings!.password.toString(), port: 465, ignoreBadCertificate: false, ssl: true, allowInsecure: true);
+final smtpServer = SmtpServer(mailSettings!.host.toString(),
+    username: mailSettings!.userName.toString(),
+    password: mailSettings!.password.toString(),
+    port: 465,
+    ignoreBadCertificate: false,
+    ssl: true,
+    allowInsecure: true);
 
-sendMail({String? subject, String? body, bool? isAdmin = false, List<dynamic>? recipients}) async {
+sendMail(
+    {String? subject,
+    String? body,
+    bool? isAdmin = false,
+    List<dynamic>? recipients}) async {
   // Create our message.
-  if(isAdmin == true){
+  if (isAdmin == true) {
     recipients!.add(mailSettings!.userName.toString());
   }
   final message = Message()
-    ..from = Address(mailSettings!.userName.toString(), mailSettings!.fromName.toString())
+    ..from = Address(
+        mailSettings!.userName.toString(), mailSettings!.fromName.toString())
     ..recipients = recipients!
     ..subject = subject
     ..text = body
@@ -231,5 +253,3 @@ sendMail({String? subject, String? body, bool? isAdmin = false, List<dynamic>? r
   // // Send the first message
   // await connection.send(message);
 }
-
-

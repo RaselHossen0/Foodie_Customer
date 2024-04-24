@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/ui/vendorProductsScreen/widgets/ftap_effect.dart';
+import 'package:pizza/ui/vendorProductsScreen/widgets/ftap_effect.dart';
 
 class FIconButton extends StatelessWidget {
   final Widget icon;
@@ -26,12 +26,16 @@ class FIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget icon = IconTheme.merge(
-      data: IconThemeData(color: iconColor ?? Theme.of(context).colorScheme.primary, size: size),
+      data: IconThemeData(
+          color: iconColor ?? Theme.of(context).colorScheme.primary,
+          size: size),
       child: this.icon,
     );
 
     Widget button = Material(
-      type: backgroundColor == null ? MaterialType.transparency : MaterialType.circle,
+      type: backgroundColor == null
+          ? MaterialType.transparency
+          : MaterialType.circle,
       color: backgroundColor,
       child: buildPlatformWrapper(
         context: context,

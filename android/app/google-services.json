@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "198112282990",
-    "firebase_url": "https://foddie-ddd88-default-rtdb.firebaseio.com",
-    "project_id": "foddie-ddd88",
-    "storage_bucket": "foddie-ddd88.appspot.com"
+    "project_number": "901431133463",
+    "project_id": "restaurent-c4f62",
+    "storage_bucket": "restaurent-c4f62.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:198112282990:android:32df60e88c0d5750f3997f",
+        "mobilesdk_app_id": "1:901431133463:android:ce4d9448c725d5dcc06352",
         "android_client_info": {
           "package_name": "com.foodies.customer.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "198112282990-r35iq38o36o1jvp8ejiu9s1dqfm79idb.apps.googleusercontent.com",
+          "client_id": "901431133463-0nsinqkch0314r9mpl8nd4npn2j45dka.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCNrKaC8R6nnzk8xULUGkiOWfwwsfquRwE"
+          "current_key": "AIzaSyAAdxgWyakG62GK5K_TnvP0qFdsEd2ipfk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "198112282990-r35iq38o36o1jvp8ejiu9s1dqfm79idb.apps.googleusercontent.com",
+              "client_id": "901431133463-0nsinqkch0314r9mpl8nd4npn2j45dka.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

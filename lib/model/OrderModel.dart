@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:foodie_customer/model/AddressModel.dart';
-import 'package:foodie_customer/model/User.dart';
-import 'package:foodie_customer/model/VendorModel.dart';
-import 'package:foodie_customer/services/localDatabase.dart';
 
-import 'TaxModel.dart';
+import '../../model/AddressModel.dart';
+import '../../model/User.dart';
+import '../../model/VendorModel.dart';
+import '../../services/localDatabase.dart';
 
 class OrderModel {
   String authorID, paymentMethod;
@@ -72,8 +69,10 @@ class OrderModel {
         this.vendor = vendor ?? VendorModel();
 
   factory OrderModel.fromJson(Map<String, dynamic> parsedJson) {
-    List<CartProduct> products =
-        parsedJson.containsKey('products') ? List<CartProduct>.from((parsedJson['products'] as List<dynamic>).map((e) => CartProduct.fromJson(e))).toList() : [].cast<CartProduct>();
+    List<CartProduct> products = parsedJson.containsKey('products')
+        ? List<CartProduct>.from((parsedJson['products'] as List<dynamic>)
+            .map((e) => CartProduct.fromJson(e))).toList()
+        : [].cast<CartProduct>();
 
     List<TaxModel>? taxList;
     if (parsedJson['taxSetting'] != null) {
@@ -83,8 +82,12 @@ class OrderModel {
       });
     }
     return OrderModel(
-      address: parsedJson.containsKey('address') ? AddressModel.fromJson(parsedJson['address']) : AddressModel(),
-      author: parsedJson.containsKey('author') ? User.fromJson(parsedJson['author']) : User(),
+      address: parsedJson.containsKey('address')
+          ? AddressModel.fromJson(parsedJson['address'])
+          : AddressModel(),
+      author: parsedJson.containsKey('author')
+          ? User.fromJson(parsedJson['author'])
+          : User(),
       authorID: parsedJson['authorID'] ?? '',
       createdAt: parsedJson['createdAt'] ?? Timestamp.now(),
       id: parsedJson['id'] ?? '',
@@ -93,20 +96,35 @@ class OrderModel {
       discount: double.parse(parsedJson['discount'].toString()),
       couponCode: parsedJson['couponCode'] ?? '',
       couponId: parsedJson['couponId'] ?? '',
-      notes: (parsedJson["notes"] != null && parsedJson["notes"].toString().isNotEmpty) ? parsedJson["notes"] : "",
-      vendor: parsedJson.containsKey('vendor') ? VendorModel.fromJson(parsedJson['vendor']) : VendorModel(),
+      notes: (parsedJson["notes"] != null &&
+              parsedJson["notes"].toString().isNotEmpty)
+          ? parsedJson["notes"]
+          : "",
+      vendor: parsedJson.containsKey('vendor')
+          ? VendorModel.fromJson(parsedJson['vendor'])
+          : VendorModel(),
       vendorID: parsedJson['vendorID'] ?? '',
-      driver: parsedJson['driver'] != null ? User.fromJson(parsedJson['driver']) : null,
-      driverID: parsedJson.containsKey('driverID') ? parsedJson['driverID'] : null,
-      adminCommission: parsedJson["adminCommission"] != null ? parsedJson["adminCommission"] : "",
-      adminCommissionType: parsedJson["adminCommissionType"] != null ? parsedJson["adminCommissionType"] : "",
-      tipValue: parsedJson["tip_amount"] != null ? parsedJson["tip_amount"] : "",
+      driver: parsedJson['driver'] != null
+          ? User.fromJson(parsedJson['driver'])
+          : null,
+      driverID:
+          parsedJson.containsKey('driverID') ? parsedJson['driverID'] : null,
+      adminCommission: parsedJson["adminCommission"] != null
+          ? parsedJson["adminCommission"]
+          : "",
+      adminCommissionType: parsedJson["adminCommissionType"] != null
+          ? parsedJson["adminCommissionType"]
+          : "",
+      tipValue:
+          parsedJson["tip_amount"] != null ? parsedJson["tip_amount"] : "",
       specialDiscount: parsedJson["specialDiscount"] ?? {},
 
       takeAway: parsedJson["takeAway"] != null ? parsedJson["takeAway"] : false,
       //extras: parsedJson["extras"]!=null?parsedJson["extras"]:[],
       // extra_size: parsedJson["extras_price"]!=null?parsedJson["extras_price"]:"",
-      deliveryCharge: parsedJson["deliveryCharge"] != null ? parsedJson["deliveryCharge"] : "0.0" ,
+      deliveryCharge: parsedJson["deliveryCharge"] != null
+          ? parsedJson["deliveryCharge"]
+          : "0.0",
       paymentMethod: parsedJson["payment_method"] ?? '',
       estimatedTimeToPrepare: parsedJson["estimatedTimeToPrepare"] ?? '',
       scheduleTime: parsedJson["scheduleTime"],
@@ -134,7 +152,8 @@ class OrderModel {
       'adminCommission': this.adminCommission,
       'adminCommissionType': this.adminCommissionType,
       "tip_amount": this.tipValue,
-      "taxSetting": taxModel != null ? taxModel!.map((v) => v.toJson()).toList() : null,
+      "taxSetting":
+          taxModel != null ? taxModel!.map((v) => v.toJson()).toList() : null,
       "takeAway": this.takeAway,
       "deliveryCharge": this.deliveryCharge,
       "specialDiscount": this.specialDiscount,

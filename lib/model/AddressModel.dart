@@ -1,4 +1,4 @@
-import 'package:foodie_customer/model/User.dart';
+import 'package:pizza/model/User.dart';
 
 class AddressModel {
   String city;
@@ -17,7 +17,16 @@ class AddressModel {
 
   String postalCode;
 
-  AddressModel({this.city = '', this.country = '', this.email = '', this.line1 = '', this.line2 = '', location, this.name = '', this.postalCode = ''}) : this.location = location ?? UserLocation();
+  AddressModel(
+      {this.city = '',
+      this.country = '',
+      this.email = '',
+      this.line1 = '',
+      this.line2 = '',
+      location,
+      this.name = '',
+      this.postalCode = ''})
+      : this.location = location ?? UserLocation();
 
   factory AddressModel.fromJson(Map<String, dynamic> parsedJson) {
     return AddressModel(
@@ -26,7 +35,9 @@ class AddressModel {
       email: parsedJson['email'] ?? '',
       line1: parsedJson['line1'] ?? '',
       line2: parsedJson['line2'] ?? '',
-      location: parsedJson.containsKey('location') ? UserLocation.fromJson(parsedJson['location']) : UserLocation(),
+      location: parsedJson.containsKey('location')
+          ? UserLocation.fromJson(parsedJson['location'])
+          : UserLocation(),
       name: parsedJson['name'] ?? '',
       postalCode: parsedJson['postalCode'] ?? '',
     );

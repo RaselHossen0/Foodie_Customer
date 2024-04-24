@@ -1,31 +1,35 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_customer/constants.dart';
-import 'package:foodie_customer/model/ProductModel.dart';
-import 'package:foodie_customer/model/VendorCategoryModel.dart';
-import 'package:foodie_customer/model/VendorModel.dart';
-import 'package:foodie_customer/model/offer_model.dart';
-import 'package:foodie_customer/services/FirebaseHelper.dart';
-import 'package:foodie_customer/services/helper.dart';
-import 'package:foodie_customer/services/localDatabase.dart';
-import 'package:foodie_customer/ui/productDetailsScreen/ProductDetailsScreen.dart';
-import 'package:foodie_customer/ui/vendorProductsScreen/widgets/fappbar.dart';
 import 'package:provider/provider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constants.dart';
+import '../../model/ProductModel.dart';
+import '../../model/VendorCategoryModel.dart';
+import '../../model/VendorModel.dart';
+import '../../model/offer_model.dart';
+import '../../services/FirebaseHelper.dart';
+import '../../services/helper.dart';
+import '../../services/localDatabase.dart';
+import '../../ui/productDetailsScreen/ProductDetailsScreen.dart';
+import '../../ui/vendorProductsScreen/widgets/fappbarr.dart';
+
 class NewVendorProductsScreen extends StatefulWidget {
   final VendorModel vendorModel;
 
-  const NewVendorProductsScreen({Key? key, required this.vendorModel}) : super(key: key);
+  const NewVendorProductsScreen({Key? key, required this.vendorModel})
+      : super(key: key);
 
   @override
-  State<NewVendorProductsScreen> createState() => _NewVendorProductsScreenState();
+  State<NewVendorProductsScreen> createState() =>
+      _NewVendorProductsScreenState();
 }
 
-class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with SingleTickerProviderStateMixin {
+class _NewVendorProductsScreenState extends State<NewVendorProductsScreen>
+    with SingleTickerProviderStateMixin {
   final FireStoreUtils fireStoreUtils = FireStoreUtils();
 
   final listViewKey = RectGetter.createGlobalKey();
@@ -63,14 +67,18 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
     foodType = sp.getString("foodType") ?? "Delivery".tr();
 
     if (foodType == "Takeaway") {
-      await fireStoreUtils.getVendorProductsTakeAWay(widget.vendorModel.id).then((value) {
+      await fireStoreUtils
+          .getVendorProductsTakeAWay(widget.vendorModel.id)
+          .then((value) {
         productModel.clear();
         productModel.addAll(value);
         getVendorCategoryById();
         setState(() {});
       });
     } else {
-      await fireStoreUtils.getVendorProductsDelivery(widget.vendorModel.id).then((value) {
+      await fireStoreUtils
+          .getVendorProductsDelivery(widget.vendorModel.id)
+          .then((value) {
         productModel.clear();
         productModel.addAll(value);
         getVendorCategoryById();
@@ -90,7 +98,9 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
       } else if (!a.contains(productModel[i].categoryID)) {
         a.add(productModel[i].categoryID);
 
-        await fireStoreUtils.getVendorCategoryById(productModel[i].categoryID).then((value) {
+        await fireStoreUtils
+            .getVendorCategoryById(productModel[i].categoryID)
+            .then((value) {
           if (value != null) {
             setState(() {
               vendorCateoryModel.add(value);
@@ -100,10 +110,13 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
       }
     }
     setState(() {
-      tabController = TabController(length: vendorCateoryModel.length, vsync: this);
+      tabController =
+          TabController(length: vendorCateoryModel.length, vsync: this);
     });
 
-    await FireStoreUtils().getOfferByVendorID(widget.vendorModel.id).then((value) {
+    await FireStoreUtils()
+        .getOfferByVendorID(widget.vendorModel.id)
+        .then((value) {
       setState(() {
         offerList = value;
       });
@@ -141,13 +154,16 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
     int lastTabIndex = tabController!.length - 1;
     List<int> visibleItems = getVisibleItemsIndex();
 
-    bool reachLastTabIndex = visibleItems.isNotEmpty && visibleItems.length <= 2 && visibleItems.last == lastTabIndex;
+    bool reachLastTabIndex = visibleItems.isNotEmpty &&
+        visibleItems.length <= 2 &&
+        visibleItems.last == lastTabIndex;
     if (reachLastTabIndex) {
       tabController!.animateTo(lastTabIndex);
     } else if (visibleItems.isNotEmpty) {
       int sumIndex = visibleItems.reduce((value, element) => value + element);
       int middleIndex = sumIndex ~/ visibleItems.length;
-      if (tabController!.index != middleIndex) tabController!.animateTo(middleIndex);
+      if (tabController!.index != middleIndex)
+        tabController!.animateTo(middleIndex);
     }
     return false;
   }
@@ -155,7 +171,9 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
   void animateAndScrollTo(int index) {
     pauseRectGetterIndex = true;
     tabController!.animateTo(index);
-    scrollController.scrollToIndex(index, preferPosition: AutoScrollPosition.begin).then((value) => pauseRectGetterIndex = false);
+    scrollController
+        .scrollToIndex(index, preferPosition: AutoScrollPosition.begin)
+        .then((value) => pauseRectGetterIndex = false);
   }
 
   @override
@@ -258,7 +276,8 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
   bool veg = false;
   bool nonveg = false;
 
-  Widget _buildFoodTileList(BuildContext context, VendorCategoryModel category) {
+  Widget _buildFoodTileList(
+      BuildContext context, VendorCategoryModel category) {
     isAnother = 0;
     return Column(
       children: [
@@ -276,7 +295,12 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
           padding: EdgeInsets.zero,
           itemBuilder: (context, inx) {
             return productModel[inx].categoryID == category.id
-                ? buildRow(productModel[inx], veg, nonveg, productModel[inx].categoryID, (inx == (productModel.length - 1)))
+                ? buildRow(
+                    productModel[inx],
+                    veg,
+                    nonveg,
+                    productModel[inx].categoryID,
+                    (inx == (productModel.length - 1)))
                 : (isAnother == 0 && (inx == (productModel.length - 1)))
                     ? showEmptyState("No Food are available.".tr(), context)
                     : Container();
@@ -300,7 +324,9 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
       isAnother++;
       return datarow(productModel);
     } else if (inx == productModel.categoryID) {
-      return (isAnother == 0 && index) ? showEmptyState("No Food are available.", context) : Container();
+      return (isAnother == 0 && index)
+          ? showEmptyState("No Food are available.", context)
+          : Container();
     }
   }
 
@@ -313,25 +339,33 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () async {
-        // await Navigator.of(context)
-        //     .push(MaterialPageRoute(builder: (context) => ProductDetailsScreen(productModel: productModel, vendorModel: widget.vendorModel)))
-        //     .whenComplete(() => {setState(() {})});
+        await Navigator.of(context)
+            .push(MaterialPageRoute(
+                builder: (context) => ProductDetailsScreen(
+                    productModel: productModel,
+                    vendorModel: widget.vendorModel)))
+            .whenComplete(() => {setState(() {})});
 
-        // showModalBottomSheet(
-        //   isScrollControlled: true,
-        //   isDismissible: true,
-        //   context: context,
-        //   backgroundColor: Colors.transparent,
-        //   enableDrag: true,
-        //   builder: (context) => ProductDetailsScreen(productModel: productModel, vendorModel: widget.vendorModel),
-        // ).whenComplete(() => {setState(() {})})
+        showModalBottomSheet(
+          isScrollControlled: true,
+          isDismissible: true,
+          context: context,
+          backgroundColor: Colors.transparent,
+          enableDrag: true,
+          builder: (context) => ProductDetailsScreen(
+              productModel: productModel, vendorModel: widget.vendorModel),
+        ).whenComplete(() => {setState(() {})});
       },
       child: Container(
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: isDarkMode(context) ? const Color(DarkContainerBorderColor) : Colors.grey.shade100, width: 1),
+          border: Border.all(
+              color: isDarkMode(context)
+                  ? const Color(DarkContainerBorderColor)
+                  : Colors.grey.shade100,
+              width: 1),
           color: isDarkMode(context) ? Color(DarkContainerColor) : Colors.white,
           boxShadow: [
             isDarkMode(context)
@@ -343,29 +377,29 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
           ],
         ),
         child: Row(children: [
-          // StreamBuilder<List<CartProduct>>(
-          //     stream: cartDatabase.watchProducts,
-          //     initialData: [],
-          //     builder: (context, snapshot) {
-          //       cartProducts = snapshot.data!;
-          //       print("cart pro copre  " + cartProducts.length.toString());
-          //       print(cartProducts.toString());
-          //       print("cart pro co " + productModel.quantity.toString());
-          //       Future.delayed(const Duration(milliseconds: 300), () {
-          //         productModel.quantity = 0;
-          //         if (cartProducts.isNotEmpty) {
-          //           for (CartProduct cartProduct in cartProducts) {
-          //             if (cartProduct.id == productModel.id) {
-          //               productModel.quantity = cartProduct.quantity;
-          //             }
-          //           }
-          //         }
-          //       });
-          //       return const SizedBox(
-          //         height: 0,
-          //         width: 0,
-          //       );
-          //     }),
+          StreamBuilder<List<CartProduct>>(
+              stream: cartDatabase.watchProducts,
+              initialData: [],
+              builder: (context, snapshot) {
+                cartProducts = snapshot.data!;
+                print("cart pro copre  " + cartProducts.length.toString());
+                print(cartProducts.toString());
+                print("cart pro co " + productModel.quantity.toString());
+                Future.delayed(const Duration(milliseconds: 300), () {
+                  productModel.quantity = 0;
+                  if (cartProducts.isNotEmpty) {
+                    for (CartProduct cartProduct in cartProducts) {
+                      if (cartProduct.id == productModel.id) {
+                        productModel.quantity = cartProduct.quantity;
+                      }
+                    }
+                  }
+                });
+                return const SizedBox(
+                  height: 0,
+                  width: 0,
+                );
+              }),
           Stack(children: [
             CachedNetworkImage(
                 height: 80,
@@ -394,7 +428,9 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
               top: 5,
               child: Icon(
                 Icons.circle,
-                color: productModel.veg == true ? const Color(0XFF3dae7d) : Colors.redAccent,
+                color: productModel.veg == true
+                    ? const Color(0XFF3dae7d)
+                    : Colors.redAccent,
                 size: 13,
               ),
             )
@@ -409,7 +445,8 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
             children: <Widget>[
               Text(
                 productModel.name,
-                style: const TextStyle(fontSize: 16, fontFamily: "Poppinssb", letterSpacing: 0.5),
+                style: const TextStyle(
+                    fontSize: 16, fontFamily: "Poppinssb", letterSpacing: 0.5),
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(
@@ -419,8 +456,12 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
                 children: <Widget>[
                   productModel.disPrice == "" || productModel.disPrice == "0"
                       ? Text(
-                    "${amountShow(amount: productModel.price.toString())}",
-                          style: TextStyle(fontSize: 16, fontFamily: "Poppinsm", letterSpacing: 0.5, color: Color(COLOR_PRIMARY)),
+                          "${amountShow(amount: productModel.price.toString())}",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: "Poppinsm",
+                              letterSpacing: 0.5,
+                              color: Color(COLOR_PRIMARY)),
                         )
                       : Row(
                           children: [
@@ -438,7 +479,11 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
                             ),
                             Text(
                               "${amountShow(amount: productModel.price.toString())}",
-                              style: const TextStyle(fontFamily: "Poppinsm", fontWeight: FontWeight.bold, color: Colors.grey, decoration: TextDecoration.lineThrough),
+                              style: const TextStyle(
+                                  fontFamily: "Poppinsm",
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                  decoration: TextDecoration.lineThrough),
                             ),
                           ],
                         ),
@@ -581,11 +626,17 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(productModel.reviewsCount != 0 ? (productModel.reviewsSum / productModel.reviewsCount).toStringAsFixed(1) : 0.toString(),
+                      Text(
+                          productModel.reviewsCount != 0
+                              ? (productModel.reviewsSum /
+                                      productModel.reviewsCount)
+                                  .toStringAsFixed(1)
+                              : 0.toString(),
                           style: const TextStyle(
                             fontFamily: "Poppinsm",
                             letterSpacing: 0.5,
@@ -607,7 +658,10 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
           TextButton.icon(
             onPressed: () async {
               await Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => ProductDetailsScreen(productModel: productModel, vendorModel: widget.vendorModel)))
+                  .push(MaterialPageRoute(
+                      builder: (context) => ProductDetailsScreen(
+                          productModel: productModel,
+                          vendorModel: widget.vendorModel)))
                   .whenComplete(() => {setState(() {})});
             },
             icon: Icon(
@@ -617,7 +671,8 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
             ),
             label: Text(
               'ADD'.tr(),
-              style: TextStyle(fontFamily: "Poppinsm", color: Color(COLOR_PRIMARY)),
+              style: TextStyle(
+                  fontFamily: "Poppinsm", color: Color(COLOR_PRIMARY)),
             ),
             style: TextButton.styleFrom(
               side: BorderSide(color: Colors.grey.shade300, width: 2),
@@ -723,8 +778,10 @@ class _NewVendorProductsScreenState extends State<NewVendorProductsScreen> with 
           element.timeslot!.forEach((element) {
             print("===>2");
             print(element);
-            var start = DateFormat("dd-MM-yyyy HH:mm").parse(date + " " + element.from.toString());
-            var end = DateFormat("dd-MM-yyyy HH:mm").parse(date + " " + element.to.toString());
+            var start = DateFormat("dd-MM-yyyy HH:mm")
+                .parse(date + " " + element.from.toString());
+            var end = DateFormat("dd-MM-yyyy HH:mm")
+                .parse(date + " " + element.to.toString());
             if (isCurrentDateInRange(start, end)) {
               print("===>1");
               setState(() {
